@@ -16,7 +16,7 @@ namespace infantiaApi.Models
         public string telefono { get; set; }
         public string email { get; set; }
         public string estadoCivil { get; set; }
-        public bool parejaDiferente { get; set; }
+        public int parejaDiferente { get; set; }
         public string grupoEtnico { get; set; }
         public string nivelEducativo { get; set; }
         public string ocupacion { get; set; }

@@ -6,9 +6,10 @@ using infantiaApi.Models;
 
 namespace infantiaApi.Interfaces
 {
-    public interface ICuidadorRepository
+    public interface ICuidador
     {
         Task<IEnumerable<Cuidador>> GetAll();
+        Task<IEnumerable<Cuidador>> GetAllbyPerfil(int idPerfil);
         Task<Cuidador> GetCuidador(int cedulaCuidador);
         Task<bool> InsertCuidador(Cuidador cuidador);
         Task<bool> UpdateCuidador(Cuidador cuidador);

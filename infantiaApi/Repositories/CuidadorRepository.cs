@@ -9,7 +9,7 @@ using MySql.Data.MySqlClient;
 
 namespace infantiaApi.Repositories
 {
-    public class CuidadorRepository: ICuidadorRepository
+    public class CuidadorRepository: ICuidador
     {
         private readonly MySQLConfiguration _connectionString;
         public CuidadorRepository(MySQLConfiguration connectionString)
@@ -28,7 +28,12 @@ namespace infantiaApi.Repositories
             var sql = @" Select * from Cuidador ";
             return await db.QueryAsync<Cuidador>(sql, new { });
         }
-
+        public async Task<IEnumerable<Cuidador>> GetAllbyPerfil(int idPerfil)
+        {
+            var db = dbConnection();
+            var sql = @" Select * from Cuidador where idPerfil = @IdPerfil ";
+            return await db.QueryAsync<Cuidador>(sql, new { IdPerfil = idPerfil });
+        }
         public async Task<Cuidador> GetCuidador(int cedulaCuidador)
         {
             var db = dbConnection();
@@ -37,7 +42,6 @@ namespace infantiaApi.Repositories
                         where cedulaCuidador = @CedulaCuidador ";
             return await db.QueryFirstOrDefaultAsync<Cuidador>(sql, new { CedulaCuidador = cedulaCuidador });
         }
-
         public async Task<bool> InsertCuidador(Cuidador cuidador)
         {
             var db = dbConnection();
@@ -64,7 +68,6 @@ namespace infantiaApi.Repositories
                 });
             return result > 0;
         }
-
         public async Task<bool> UpdateCuidador(Cuidador cuidador)
         {
             var db = dbConnection();
@@ -106,7 +109,6 @@ namespace infantiaApi.Repositories
             });
             return result > 0;
         }
-
         public async Task<bool> DeleteCuidador(Cuidador cuidador)
         {
             var db = dbConnection();

@@ -7,7 +7,7 @@ namespace infantiaApi.Models
 {
     public class Perfil
     {
-        private int idPerfil { get; set; }
-        private string descripcion { get; set; }
+        public int idPerfil { get; set; }
+        public string descripcion { get; set; }
     }
 }

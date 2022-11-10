@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnectionString("MySqlConnection"));
 builder.Services.AddSingleton(mySQLConfiguration);
 
-builder.Services.AddScoped<ICuidadorRepository, CuidadorRepository>();
+builder.Services.AddScoped<ICuidador, CuidadorRepository>();
 
 var app = builder.Build();
 

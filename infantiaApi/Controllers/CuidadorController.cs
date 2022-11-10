@@ -13,9 +13,9 @@ namespace infantiaApi.Controllers
     [ApiController]
     public class CuidadorController : ControllerBase
     {
-        private readonly ICuidadorRepository _cuidadorRepository;
+        private readonly ICuidador _cuidadorRepository;
 
-        public CuidadorController(ICuidadorRepository cuidadorRepository)
+        public CuidadorController(ICuidador cuidadorRepository)
         {
             _cuidadorRepository = cuidadorRepository;
         }
@@ -25,11 +25,17 @@ namespace infantiaApi.Controllers
         {
             return Ok(await _cuidadorRepository.GetAll());
         }
-
-        [HttpGet("{id}")]
+        
+        [HttpGet("[action]/{cedulaCuidador}")]
         public async Task<IActionResult> GetCuidador(int cedulaCuidador)
         {
             return Ok(await _cuidadorRepository.GetCuidador(cedulaCuidador));
+        }
+
+        [HttpGet("[action]/{idPerfil}")]
+        public async Task<IActionResult> GetAllbyPerfil(int idPerfil)
+        {
+            return Ok(await _cuidadorRepository.GetAllbyPerfil(idPerfil));
         }
 
         [HttpPost]
