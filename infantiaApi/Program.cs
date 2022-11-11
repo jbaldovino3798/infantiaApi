@@ -17,6 +17,9 @@ var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnect
 builder.Services.AddSingleton(mySQLConfiguration);
 
 builder.Services.AddScoped<ICuidador, CuidadorRepository>();
+builder.Services.AddScoped<IFormulario, FormularioRepository>();
+builder.Services.AddScoped<IPregunta, PreguntaRepository>();
+builder.Services.AddScoped<IRespuesta, RespuestaRepository>();
 
 var app = builder.Build();
 

@@ -2,7 +2,7 @@
 
 namespace infantiaApi.Interfaces
 {
-    public interface IPerfilRepository
+    public interface IPerfil
     {
         Task<IEnumerable<Perfil>> GetAll();
         Task<Perfil> GetPerfil(int idPerfil);
