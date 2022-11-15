@@ -16,12 +16,12 @@ namespace infantiaApi.Controllers
             _preguntaRepository = preguntaRepository;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _preguntaRepository.GetAll());
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> CreatePregunta([FromBody] Pregunta pregunta)
         {
             if (pregunta == null)
@@ -34,7 +34,7 @@ namespace infantiaApi.Controllers
             return Created("created", created);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> UpdatePregunta([FromBody] Pregunta pregunta)
         {
             if (pregunta == null)
@@ -47,7 +47,7 @@ namespace infantiaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeletePregunta(int idPregunta)
         {
             await _preguntaRepository.DeletePregunta(new Pregunta { idPregunta = idPregunta });

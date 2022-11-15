@@ -12,7 +12,6 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-
         public async Task<bool> DeleteFormulario(Formulario formulario)
         {
             var db = dbConnection();
@@ -21,14 +20,12 @@ namespace infantiaApi.Repositories
             var result = await db.ExecuteAsync(sql, new { IdFormulario = formulario.idFormulario });
             return result > 0;
         }
-
         public async Task<IEnumerable<Formulario>> GetAll()
         {
             var db = dbConnection();
             var sql = @" Select * from formulario ";
             return await db.QueryAsync<Formulario>(sql, new { });
         }
-
         public async Task<Formulario> GetFormulario(int idFormulario)
         {
             var db = dbConnection();
@@ -37,7 +34,6 @@ namespace infantiaApi.Repositories
                         where idFormulario = @IdFormulario ";
             return await db.QueryFirstOrDefaultAsync<Formulario>(sql, new { IdFormulario = idFormulario });
         }
-
         public async Task<bool> InsertFormulario(Formulario formulario)
         {
             var db = dbConnection();
@@ -49,7 +45,6 @@ namespace infantiaApi.Repositories
                 });
             return result > 0;
         }
-
         public async Task<bool> UpdateFormulario(Formulario formulario)
         {
             var db = dbConnection();
@@ -65,7 +60,6 @@ namespace infantiaApi.Repositories
                 });
             return result > 0;
         }
-
         protected MySqlConnection dbConnection()
         {
             return new MySqlConnection(_connectionString.ConnectionString);

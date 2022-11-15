@@ -22,6 +22,11 @@ builder.Services.AddScoped<IPregunta, PreguntaRepository>();
 builder.Services.AddScoped<IRespuesta, RespuestaRepository>();
 builder.Services.AddScoped<ISms, SmsRepository>();
 builder.Services.AddScoped<ITemporalidad, TemporalidadRepository>();
+builder.Services.AddScoped<ICuidadorFormulario, CuidadorFormularioRepository>();
+builder.Services.AddScoped<IValoracion, ValoracionRepository>();
+builder.Services.AddScoped<IEquipo, EquipoRepository>();
+builder.Services.AddScoped<IPerfil, PerfilRepository>();
+
 
 var app = builder.Build();
 

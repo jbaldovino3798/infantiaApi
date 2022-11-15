@@ -12,7 +12,6 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-
         public async Task<bool> DeletePregunta(Pregunta pregunta)
         {
             var db = dbConnection();
@@ -21,14 +20,12 @@ namespace infantiaApi.Repositories
             var result = await db.ExecuteAsync(sql, new { IdPregunta = pregunta.idPregunta });
             return result > 0;
         }
-
         public async Task<IEnumerable<Pregunta>> GetAll()
         {
             var db = dbConnection();
             var sql = @" Select * from pregunta ";
             return await db.QueryAsync<Pregunta>(sql, new { });
         }
-
         public async Task<Pregunta> GetPregunta(int idPregunta)
         {
             var db = dbConnection();
@@ -37,7 +34,6 @@ namespace infantiaApi.Repositories
                         where idPregunta = @IdPregunta ";
             return await db.QueryFirstOrDefaultAsync<Pregunta>(sql, new { IdPregunta = idPregunta });
         }
-
         public async Task<bool> InsertPregunta(Pregunta pregunta)
         {
             var db = dbConnection();
@@ -50,7 +46,6 @@ namespace infantiaApi.Repositories
             });
             return result > 0;
         }
-
         public async Task<bool> UpdatePregunta(Pregunta pregunta)
         {
             var db = dbConnection();
@@ -66,7 +61,6 @@ namespace infantiaApi.Repositories
             });
             return result > 0;
         }
-
         protected MySqlConnection dbConnection()
         {
             return new MySqlConnection(_connectionString.ConnectionString);

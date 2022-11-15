@@ -12,7 +12,6 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-
         public async Task<bool> DeleteTemporalidad(Temporalidad temporalidad)
         {
             var db = dbConnection();
@@ -21,21 +20,18 @@ namespace infantiaApi.Repositories
             var result = await db.ExecuteAsync(sql, new { IdTemporalidad = temporalidad.idTemporalidad });
             return result > 0;
         }
-
         public async Task<IEnumerable<Temporalidad>> GetAll()
         {
             var db = dbConnection();
             var sql = @" Select * from temporalidad ";
             return await db.QueryAsync<Temporalidad>(sql, new { });
         }
-
         public async Task<Temporalidad> GetTemporalidad(int idTemporalidad)
         {
             var db = dbConnection();
             var sql = @" Select * from temporalidad where idTemporalidad = @IdTemporalidad ";
             return await db.QueryFirstOrDefaultAsync<Temporalidad>(sql, new { IdTemporalidad = idTemporalidad });
         }
-
         public async Task<bool> InsertTemporalidad(Temporalidad temporalidad)
         {
             var db = dbConnection();
@@ -47,7 +43,6 @@ namespace infantiaApi.Repositories
             });
             return result > 0;
         }
-
         public async Task<bool> UpdateTemporalidad(Temporalidad temporalidad)
         {
             var db = dbConnection();
@@ -61,7 +56,6 @@ namespace infantiaApi.Repositories
             });
             return result > 0;
         }
-
         protected MySqlConnection dbConnection()
         {
             return new MySqlConnection(_connectionString.ConnectionString);

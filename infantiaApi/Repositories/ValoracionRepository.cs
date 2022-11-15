@@ -1,4 +1,5 @@
-﻿using infantiaApi.Interfaces;
+﻿using Dapper;
+using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using MySql.Data.MySqlClient;
 
@@ -11,32 +12,50 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-
-        public Task<bool> DeleteValoracion(Valoracion valoracion)
+        public async Task<bool> DeleteValoracion(Valoracion valoracion)
         {
-            throw new NotImplementedException();
+            var db = dbConnection();
+            var sql = @" delete from valoracion 
+                         where idValoracion = @IdValoracion ";
+            var result = await db.ExecuteAsync(sql, new { IdValoracion = valoracion.idValoracion });
+            return result > 0;
         }
-
-        public Task<IEnumerable<Valoracion>> GetAll()
+        public async Task<IEnumerable<Valoracion>> GetAll()
         {
-            throw new NotImplementedException();
+            var db = dbConnection();
+            var sql = @" Select * from valoracion ";
+            return await db.QueryAsync<Valoracion>(sql, new { });
         }
-
-        public Task<Valoracion> GetValoracion(int idValoracion)
+        public async Task<Valoracion> GetValoracion(int idValoracion)
         {
-            throw new NotImplementedException();
+            var db = dbConnection();
+            var sql = @" Select * from valoracion where idValoracion = @IdValoracion ";
+            return await db.QueryFirstOrDefaultAsync<Valoracion>(sql, new { IdValoracion = idValoracion });
         }
-
-        public Task<bool> InsertValoracion(Valoracion valoracion)
+        public async Task<bool> InsertValoracion(Valoracion valoracion)
         {
-            throw new NotImplementedException();
+            var db = dbConnection();
+            var sql = @" insert into valoracion (valor)
+                        values (@Valor) ";
+            var result = await db.ExecuteAsync(sql, new
+            {
+                valoracion.valor
+            });
+            return result > 0;
         }
-
-        public Task<bool> UpdateValoracion(Valoracion valoracion)
+        public async Task<bool> UpdateValoracion(Valoracion valoracion)
         {
-            throw new NotImplementedException();
+            var db = dbConnection();
+            var sql = @" update  valoracion 
+                         set valor = @Valor 
+                         where idValoracion = @IdValoracion";
+            var result = await db.ExecuteAsync(sql, new
+            {
+                valoracion.valor,
+                valoracion.idValoracion
+            });
+            return result > 0;
         }
-
         protected MySqlConnection dbConnection()
         {
             return new MySqlConnection(_connectionString.ConnectionString);

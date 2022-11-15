@@ -20,7 +20,7 @@ namespace infantiaApi.Controllers
             _cuidadorRepository = cuidadorRepository;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _cuidadorRepository.GetAll());
@@ -38,7 +38,7 @@ namespace infantiaApi.Controllers
             return Ok(await _cuidadorRepository.GetAllbyPerfil(idPerfil));
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> CreateCuidador([FromBody] Cuidador cuidador)
         {
             if (cuidador == null)            
@@ -51,7 +51,7 @@ namespace infantiaApi.Controllers
             return Created("created", created);            
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> UpdateCuidador([FromBody] Cuidador cuidador)
         {
             if (cuidador == null)
@@ -64,7 +64,7 @@ namespace infantiaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteCuidador(int cedulaCuidador)
         {
             await _cuidadorRepository.DeleteCuidador(new Cuidador { cedulaCuidador = cedulaCuidador });

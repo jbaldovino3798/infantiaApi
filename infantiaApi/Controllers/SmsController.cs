@@ -17,7 +17,7 @@ namespace infantiaApi.Controllers
             _smsRepository = smsRepository;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _smsRepository.GetAll());
@@ -29,7 +29,7 @@ namespace infantiaApi.Controllers
             return Ok(await _smsRepository.GetAllbyPerfil(idPerfil));
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> CreateSms([FromBody] Sms sms)
         {
             if (sms == null)
@@ -42,7 +42,7 @@ namespace infantiaApi.Controllers
             return Created("created", created);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> UpdateSms([FromBody] Sms sms)
         {
             if (sms == null)
@@ -55,7 +55,7 @@ namespace infantiaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteSms(int idSms)
         {
             await _smsRepository.DeleteSms(new Sms { idSms = idSms });

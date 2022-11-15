@@ -17,12 +17,12 @@ namespace infantiaApi.Controllers
             _formularioRepository = formularioRepository;
         }
 
-        [HttpGet]
+        [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await _formularioRepository.GetAll());
         }
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<IActionResult> CreateFormulario([FromBody] Formulario formulario)
         {
             if (formulario == null)
@@ -35,7 +35,7 @@ namespace infantiaApi.Controllers
             return Created("created", created);
         }
 
-        [HttpPut]
+        [HttpPut("[action]")]
         public async Task<IActionResult> UpdateFormulario([FromBody] Formulario formulario)
         {
             if (formulario == null)
@@ -48,7 +48,7 @@ namespace infantiaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteFormulario(int idFormulario)
         {
             await _formularioRepository.DeleteFormulario(new Formulario { idFormulario = idFormulario });
