@@ -1,7 +1,10 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Xml.Linq;
 
 namespace infantiaApi.Controllers
 {
@@ -17,9 +20,11 @@ namespace infantiaApi.Controllers
         }
 
         [HttpGet("[action]")]
+        [EnableCors("AllowOrigin")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _perfilRepository.GetAll());
+            String data = JsonSerializer.Serialize(await _perfilRepository.GetAll());
+            return Ok(data);
         }
 
         [HttpPost("[action]")]
