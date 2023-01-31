@@ -1,5 +1,6 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using infantiaApi.Repositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,15 @@ namespace infantiaApi.Controllers
         [EnableCors("AllowOrigin")]
         public async Task<IActionResult> GetAll()
         {
-            String data = JsonSerializer.Serialize(await _perfilRepository.GetAll());
-            return Ok(data);
+            /*String data = JsonSerializer.Serialize(await _perfilRepository.GetAll());
+            return Ok(data);*/
+            return Ok(await _perfilRepository.GetAll());
+        }
+
+        [HttpGet("[action]/{idPerfil}")]
+        public async Task<IActionResult> GetPerfil(int idPerfil)
+        {
+            return Ok(await _perfilRepository.GetPerfil(idPerfil));
         }
 
         [HttpPost("[action]")]
