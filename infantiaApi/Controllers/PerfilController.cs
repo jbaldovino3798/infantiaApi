@@ -30,12 +30,14 @@ namespace infantiaApi.Controllers
         }
 
         [HttpGet("[action]/{idPerfil}")]
+        [EnableCors("AllowOrigin")]
         public async Task<IActionResult> GetPerfil(int idPerfil)
         {
             return Ok(await _perfilRepository.GetPerfil(idPerfil));
         }
 
         [HttpPost("[action]")]
+        [EnableCors("AllowOrigin")]
         public async Task<IActionResult> CreatePerfil([FromBody] Perfil perfil)
         {
             if (perfil == null)
@@ -49,6 +51,7 @@ namespace infantiaApi.Controllers
         }
 
         [HttpPut("[action]")]
+        [EnableCors("AllowOrigin")]
         public async Task<IActionResult> UpdatePerfil([FromBody] Perfil perfil)
         {
             if (perfil == null)
@@ -61,7 +64,8 @@ namespace infantiaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("[action]")]
+        [HttpDelete("[action]/{idPerfil}")]
+        [EnableCors("AllowOrigin")]
         public async Task<IActionResult> DeletePerfil(int idPerfil)
         {
             await _perfilRepository.DeletePerfil(new Perfil { idPerfil = idPerfil });
