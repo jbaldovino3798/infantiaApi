@@ -30,9 +30,10 @@ builder.Services.AddScoped<ICuidadorFormulario, CuidadorFormularioRepository>();
 builder.Services.AddScoped<IValoracion, ValoracionRepository>();
 builder.Services.AddScoped<IEquipo, EquipoRepository>();
 builder.Services.AddScoped<IPerfil, PerfilRepository>();
-builder.Services.AddCors(c =>
+builder.Services.AddCors(options =>
 {
-    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    options.AddPolicy("CorsPolicy", 
+        builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
 var app = builder.Build();
@@ -43,7 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(x => x.WithOrigins("https://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
