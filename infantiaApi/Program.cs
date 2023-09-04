@@ -2,6 +2,7 @@ using infantiaApi;
 using infantiaApi.Interfaces;
 using infantiaApi.Repositories;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
+
+app.MapPost("/Files/UploadFiles", (HttpRequest request) => {
+    if (!request.HasFormContentType)
+        return Results.Problem();
+
+    if (!request.Form.Files.Any())
+        return Results.BadRequest("Suba al menos un archivo.");
+        foreach (var file in request.Form.Files)
+        {
+            using (var stream = new FileStream(@"C:\Users\jbaldovino\Documents\DocumentosInfantia\" + file.FileName, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+        }
+        return Results.Ok("Archivo Subido Exitosamente");
+});
 
 app.UseAuthorization();
 
