@@ -9,5 +9,7 @@ namespace infantiaApi.Interfaces
         Task<bool> InsertEquipo(Equipo equipo);
         Task<bool> UpdateEquipo(Equipo equipo);
         Task<bool> DeleteEquipo(Equipo equipo);
+        Task<bool> GenerateAndStoreToken(int cedulaCuidador);
+        Task<bool> AuthenticateAsync(int cedulaMiembro, string password);
     }
 }

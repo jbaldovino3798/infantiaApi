@@ -3,6 +3,9 @@ using infantiaApi.Interfaces;
 using infantiaApi.Repositories;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Ocsp;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,28 @@ builder.Services.AddCors(options =>
     options.AddPolicy("CorsPolicy", 
         builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
+/*
+// Configure JWT Authentication
+var jwtSettings = builder.Configuration.GetSection("token");
+var key = Encoding.ASCII.GetBytes(jwtSettings["key"]);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false, // You can set this to true if you want to validate the issuer
+            ValidateAudience = false, // You can set this to true if you want to validate the audience
+        };
+    });
+
+builder.Services.AddAuthorization();
+*/
+// Configure logging to output to the console
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 
@@ -48,22 +73,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
-
-app.MapPost("/Files/UploadFiles", (HttpRequest request) => {
-    if (!request.HasFormContentType)
-        return Results.Problem();
-
-    if (!request.Form.Files.Any())
-        return Results.BadRequest("Suba al menos un archivo.");
-        foreach (var file in request.Form.Files)
-        {
-            using (var stream = new FileStream(@"C:\Users\jbaldovino\Documents\DocumentosInfantia\" + file.FileName, FileMode.Create))
-            {
-                file.CopyTo(stream);
-            }
-        }
-        return Results.Ok("Archivo Subido Exitosamente");
-});
 
 app.UseAuthorization();
 
