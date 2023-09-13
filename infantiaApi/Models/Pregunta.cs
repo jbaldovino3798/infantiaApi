@@ -1,10 +1,21 @@
-﻿namespace infantiaApi.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace infantiaApi.Models
 {
     public class Pregunta
     {
+        [Required]
         public int idPregunta { get; set; }
-        public int idFormulario { get; set; }
+        [Required]
+        public int idPonderacion { get; set; }
         public string pregunta { get; set; }
+        public string tipoDato { get; set; }
+        public int estado { get; set; }
+        [Required]
+        public string usuarioCreacion { get; set; }
+        public string fechaCreacion { get; set; }
+        public string usuarioActualizacion { get; set; }
+        public string fechaActualizacion { get; set; }
 
     }
 }

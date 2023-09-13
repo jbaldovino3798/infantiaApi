@@ -45,8 +45,29 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" insert into cuidador 
-                        values (@CedulaCuidador, @NombreCuidador, @Edad, @Direccion, @Barrio, @Estrato, @Telefono, @Email, @EstadoCivil, @ParejaDiferente, @GrupoEtnico,
-                                @NivelEducativo, @Ocupacion, @NombreNiño, @Parentesco, @IdPerfil ) ";
+                        values (@CedulaCuidador, 
+                                @NombreCuidador, 
+                                @Edad, 
+                                @Direccion, 
+                                @Barrio, 
+                                @Estrato, 
+                                @Telefono, 
+                                @Email, 
+                                @EstadoCivil, 
+                                @ParejaDiferente, 
+                                @GrupoEtnico,
+                                @NivelEducativo, 
+                                @Ocupacion, 
+                                @NombreNiño, 
+                                @EdadMenor, 
+                                @Parentesco, 
+                                @FechaNacimientoMenor, 
+                                @CodigoMunicipio,
+                                @IdGrupo,  
+                                @IdGrupoParticipante,  
+                                @IdPerfil,
+                                @UsuarioCreacion,
+                                @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new 
                 { cuidador.cedulaCuidador, 
                   cuidador.nombreCuidador, 
@@ -61,9 +82,16 @@ namespace infantiaApi.Repositories
                   cuidador.grupoEtnico, 
                   cuidador.nivelEducativo, 
                   cuidador.ocupacion, 
-                  cuidador.nombreNiño, 
-                  cuidador.parentesco, 
-                  cuidador.idPerfil 
+                  cuidador.nombreNiño,
+                  cuidador.edadMenor,
+                  cuidador.parentesco,
+                  cuidador.fechaNacimientoMenor,
+                  cuidador.codigoMunicipio,
+                  cuidador.idGrupo,
+                  cuidador.idGrupoParticipante,
+                  cuidador.idPerfil ,
+                  cuidador.usuarioCreacion,
+                  cuidador.fechaCreacion
                 });
             return result > 0;
         }
@@ -84,11 +112,18 @@ namespace infantiaApi.Repositories
                              nivelEducativo = @NivelEducativo,
                              ocupacion = @Ocupacion,
                              nombreNiño = @NombreNiño,
+                             edadMenor = @EdadMenor,
                              parentesco = @Parentesco,
-                             idPerfil = @IdPerfil 
+                             fechaNacimientoMenor = @FechaNacimientoMenor,
+                             codigoMunicipio = @CodigoMunicipio,
+                             idGrupo = @IdGrupo,
+                             idGrupoParticipante = @IdGrupoParticipante,
+                             idPerfil = @IdPerfil, 
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion,
                         where cedulaCuidador = @CedulaCuidador";
             var result = await db.ExecuteAsync(sql, new
-            {                
+            {
                 cuidador.nombreCuidador,
                 cuidador.edad,
                 cuidador.direccion,
@@ -102,8 +137,15 @@ namespace infantiaApi.Repositories
                 cuidador.nivelEducativo,
                 cuidador.ocupacion,
                 cuidador.nombreNiño,
+                cuidador.edadMenor,
                 cuidador.parentesco,
+                cuidador.fechaNacimientoMenor,
+                cuidador.codigoMunicipio,
+                cuidador.idGrupo,
+                cuidador.idGrupoParticipante,
                 cuidador.idPerfil,
+                cuidador.usuarioActualizacion,
+                cuidador.fechaActualizacion,
                 cuidador.cedulaCuidador
             });
             return result > 0;

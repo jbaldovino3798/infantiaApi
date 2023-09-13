@@ -37,23 +37,29 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertPerfil(Perfil perfil)
         {
             var db = dbConnection();
-            var sql = @" insert into perfil (descripcion)
-                        values (@Descripcion) ";
+            var sql = @" insert into perfil (descripcion, usuarioCreacion, fechaCreacion)
+                        values (@Descripcion, @UsuarioCreacion, @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new
-            {
-                perfil.descripcion
-            });
+                {
+                    perfil.descripcion,
+                    perfil.usuarioCreacion,
+                    perfil.fechaCreacion
+                });
             return result > 0;
         }
         public async Task<bool> UpdatePerfil(Perfil perfil)
         {
             var db = dbConnection();
             var sql = @" update perfil 
-                         set descripcion =  @Descripcion
+                         set descripcion =  @Descripcion,
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where idPerfil = @IdPerfil ";
             var result = await db.ExecuteAsync(sql, new
             {
                 perfil.descripcion,
+                perfil.usuarioActualizacion,
+                perfil.fechaActualizacion,
                 perfil.idPerfil
             });
             return result > 0;

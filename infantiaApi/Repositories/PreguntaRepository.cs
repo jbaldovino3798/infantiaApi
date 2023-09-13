@@ -23,7 +23,7 @@ namespace infantiaApi.Repositories
         public async Task<IEnumerable<Pregunta>> GetAll()
         {
             var db = dbConnection();
-            var sql = @" Select * from pregunta ";
+            var sql = @" Select * from pregunta";
             return await db.QueryAsync<Pregunta>(sql, new { });
         }
         public async Task<Pregunta> GetPregunta(int idPregunta)
@@ -37,26 +37,35 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertPregunta(Pregunta pregunta)
         {
             var db = dbConnection();
-            var sql = @" insert into pregunta (idFormulario, pregunta)
-                        values (@IdFormulario, @Pregunta) ";
+            var sql = @" insert into pregunta (idPonderacion, pregunta, tipoDato, usuarioCreacion, fechaCreacion)
+                        values (@IdPonderacion, @Pregunta, @TipoDato, @UsuarioCreacion, @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new
-            {
-                pregunta.idFormulario,
-                pregunta.pregunta
-            });
+                {
+                    pregunta.idPonderacion,
+                    pregunta.pregunta,
+                    pregunta.tipoDato,
+                    pregunta.usuarioCreacion,
+                    pregunta.fechaCreacion
+                });
             return result > 0;
         }
         public async Task<bool> UpdatePregunta(Pregunta pregunta)
         {
             var db = dbConnection();
             var sql = @" update pregunta 
-                         set idFormulario =  @IdFormulario,
-                             pregunta = @Pregunta
+                         set idPonderacion =  @IdPonderacion,
+                             pregunta = @Pregunta,
+                             tipoDato = @TipoDato,
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion,
                         where idPregunta = @IdPregunta";
             var result = await db.ExecuteAsync(sql, new
             {
-                pregunta.idFormulario,
+                pregunta.idPonderacion,
                 pregunta.pregunta,
+                pregunta.tipoDato,
+                pregunta.usuarioActualizacion,
+                pregunta.fechaActualizacion,
                 pregunta.idPregunta
             });
             return result > 0;

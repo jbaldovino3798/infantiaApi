@@ -1,20 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace infantiaApi.Models
 {
-    public class Respuesta
+    public class GrupoParticipante
     {
         [Required]
-        public int idRespuesta { get; set; }
-        [Required]
-        public int idPregunta { get; set; }
-        public string respuesta { get; set; }
+        public int idGrupoParticipante { get; set; }
+        public string descripcionGrupo { get; set; }
         public int estado { get; set; }
         [Required]
         public string usuarioCreacion { get; set; }
         public string fechaCreacion { get; set; }
         public string usuarioActualizacion { get; set; }
         public string fechaActualizacion { get; set; }
-
     }
 }

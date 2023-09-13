@@ -2,13 +2,13 @@
 
 namespace infantiaApi.Models
 {
-    public class Respuesta
+    public class Grupo
     {
         [Required]
-        public int idRespuesta { get; set; }
-        [Required]
-        public int idPregunta { get; set; }
-        public string respuesta { get; set; }
+        public int idGrupo { get; set; }
+        public string descripcionGrupo { get; set; }
+        public int rangoMinimo { get; set; }
+        public int rangoMaximo { get; set; }
         public int estado { get; set; }
         [Required]
         public string usuarioCreacion { get; set; }

@@ -2,13 +2,11 @@
 
 namespace infantiaApi.Models
 {
-    public class Respuesta
+    public class Municipio
     {
         [Required]
-        public int idRespuesta { get; set; }
-        [Required]
-        public int idPregunta { get; set; }
-        public string respuesta { get; set; }
+        public string codigoMunicipio { get; set; }
+        public string descripcion { get; set; }
         public int estado { get; set; }
         [Required]
         public string usuarioCreacion { get; set; }

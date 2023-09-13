@@ -99,19 +99,33 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertRespTempUsu(RespTempUsu respTempUsu)
         {
             var db = dbConnection();
-            var sql = @" insert into resptempusu (idTemporalidad, idPregunta, idRespuesta, cedulaCuidador, idValoracion)
-                        values (@IdTemporalidad, @IdPregunta, @IdRespuesta, @CedulaCuidador, @IdValoracion) ";
+            var sql = @" insert into resptempusu (idTemporalidad, 
+                                                  idPregunta, 
+                                                  idRespuesta, 
+                                                  cedulaCuidador, 
+                                                  idValoracion,
+                                                  usuarioCreacion,
+                                                  fechaCreacion)
+                        values (@IdTemporalidad,
+                                @IdPregunta, 
+                                @IdRespuesta, 
+                                @CedulaCuidador, 
+                                @IdValoracion,
+                                @UsuarioCreacion,
+                                @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new
             {
                 IdTemporalidad = respTempUsu.idTemporalidad,
                 IdPregunta = respTempUsu.idPregunta,
                 IdRespuesta = respTempUsu.idRespuesta,
                 CedulaCuidador = respTempUsu.cedulaCuidador,
-                IdValoracion = respTempUsu.idValoracion
+                IdValoracion = respTempUsu.idValoracion,
+                UsuarioCreacion = respTempUsu.usuarioCreacion,
+                FechaCreacion = respTempUsu.fechaCreacion
             });
             return result > 0;
         }
-        public async Task<bool> UpdateRespTempUsu(RespTempUsu respTempUsu)
+        /*public async Task<bool> UpdateRespTempUsu(RespTempUsu respTempUsu)
         {
             var db = dbConnection();
             var sql = @" update resptempusu 
@@ -129,7 +143,7 @@ namespace infantiaApi.Repositories
                 IdValoracion = respTempUsu.idValoracion
             });
             return result > 0;
-        }
+        }*/
         protected MySqlConnection dbConnection()
         {
             return new MySqlConnection(_connectionString.ConnectionString);

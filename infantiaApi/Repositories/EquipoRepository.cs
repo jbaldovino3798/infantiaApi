@@ -42,8 +42,24 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertEquipo(Equipo equipo)
         {
             var db = dbConnection();
-            var sql = @"INSERT INTO equipo (cedulaMiembro, nombreMiembro, ocupacion, rol, password, token, fechaExpiracionToken)
-                    VALUES (@CedulaMiembro, @NombreMiembro, @Ocupacion, @Rol, @Password, @Token, @FechaExpiracionToken)";
+            var sql = @"INSERT INTO equipo (cedulaMiembro, 
+                                            nombreMiembro, 
+                                            ocupacion, 
+                                            rol, 
+                                            password, 
+                                            token, 
+                                            fechaExpiracionToken,
+                                            usuarioCreacion,
+                                            fechaCreacion)
+                        VALUES (@CedulaMiembro, 
+                                @NombreMiembro, 
+                                @Ocupacion, 
+                                @Rol, 
+                                @Password, 
+                                @Token, 
+                                @FechaExpiracionToken,
+                                @UsuarioCreacion,
+                                @FechaCreacion)";
 
             // Generate a random token for the new user
             equipo.token = GenerateRandomToken(32); // You can specify the desired token length
@@ -53,15 +69,17 @@ namespace infantiaApi.Repositories
             equipo.password = HashPassword(equipo.password);
 
             var result = await db.ExecuteAsync(sql, new
-            {
-                equipo.cedulaMiembro,
-                equipo.nombreMiembro,
-                equipo.ocupacion,
-                equipo.rol,
-                equipo.password,
-                equipo.token,
-                equipo.fechaExpiracionToken
-            });
+                {
+                    equipo.cedulaMiembro,
+                    equipo.nombreMiembro,
+                    equipo.ocupacion,
+                    equipo.rol,
+                    equipo.password,
+                    equipo.token,
+                    equipo.fechaExpiracionToken,
+                    equipo.usuarioCreacion,
+                    equipo.fechaCreacion
+                });
 
             return result > 0;
         }
@@ -71,15 +89,17 @@ namespace infantiaApi.Repositories
             var sql = @" update  equipo 
                          set nombreMiembro = @NombreMiembro,
                              ocupacion = @Ocupacion,
-                             rol = @Rol
+                             rol = @Rol,
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                          where cedulaMiembro = @CedulaMiembro ";
             var result = await db.ExecuteAsync(sql, new
-            {
-                equipo.nombreMiembro,
-                equipo.ocupacion,
-                equipo.rol,
-                equipo.cedulaMiembro
-            });
+                {
+                    equipo.nombreMiembro,
+                    equipo.ocupacion,
+                    equipo.rol,
+                    equipo.cedulaMiembro
+                });
             return result > 0;
         }
         public async Task<bool> GenerateAndStoreToken(int cedulaMiembro)

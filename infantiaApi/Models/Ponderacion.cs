@@ -2,13 +2,12 @@
 
 namespace infantiaApi.Models
 {
-    public class Respuesta
+    public class Ponderacion
     {
         [Required]
-        public int idRespuesta { get; set; }
+        public int idPonderacion { get; set; }
         [Required]
-        public int idPregunta { get; set; }
-        public string respuesta { get; set; }
+        public double valor { get; set; }
         public int estado { get; set; }
         [Required]
         public string usuarioCreacion { get; set; }

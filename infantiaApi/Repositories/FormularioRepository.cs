@@ -37,11 +37,13 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertFormulario(Formulario formulario)
         {
             var db = dbConnection();
-            var sql = @" insert into formulario (descripcion, nroPreguntas)
-                        values (@Descripcion, @NroPreguntas) ";
+            var sql = @" insert into formulario (descripcion, nroPreguntas, usuarioCreacion, fechaCreacion)
+                        values (@Descripcion, @NroPreguntas, @UsuarioCreacion, @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new
                 {   formulario.descripcion,
-                    formulario.nroPreguntas
+                    formulario.nroPreguntas,
+                    formulario.usuarioCreacion,
+                    formulario.fechaCreacion
                 });
             return result > 0;
         }
@@ -50,12 +52,16 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" update formulario 
                          set descripcion =  @Descripcion,
-                             nroPreguntas = @NroPreguntas
+                             nroPreguntas = @NroPreguntas,
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where idFormulario = @IdFormulario";
             var result = await db.ExecuteAsync(sql, new
                 {
                     formulario.descripcion,
                     formulario.nroPreguntas,
+                    formulario.usuarioActualizacion,
+                    formulario.fechaActualizacion,
                     formulario.idFormulario
                 });
             return result > 0;
