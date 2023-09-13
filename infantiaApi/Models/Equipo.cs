@@ -8,7 +8,7 @@
         public int rol { get; set; }
         public string password { get; set; }
         public string token { get; set; }
-        public DateTime fechaExpiracionToken { get; set; }
+        public string fechaExpiracionToken { get; set; }
     }
 
 

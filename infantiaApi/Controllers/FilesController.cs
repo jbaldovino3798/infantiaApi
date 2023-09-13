@@ -13,7 +13,7 @@ namespace infantiaApi.Controllers
     public class FilesController : ControllerBase
     {
 
-        private readonly string _documentsFolderPath = @"C:\Users\jbaldovino\Documents\";
+        private readonly string _documentsFolderPath = @"C:\Users\CIDHUM\Documents\";
 
         [HttpPost("UploadFiles")]
         public IActionResult UploadFiles()
@@ -32,7 +32,7 @@ namespace infantiaApi.Controllers
 
                 foreach (var file in Request.Form.Files)
                 {
-                    using (var stream = new FileStream(@"C:\Users\jbaldovino\Documents\DocumentosInfantia\" + file.FileName, FileMode.Create))
+                    using (var stream = new FileStream(@"C:\Users\CIDHUM\Documents\DocumentosInfantia\" + file.FileName, FileMode.Create))
                     {
                         file.CopyTo(stream);
                     }
@@ -63,7 +63,7 @@ namespace infantiaApi.Controllers
                 var userName = User.FindFirst(ClaimTypes.Name)?.Value;
 
                 // Construct the user-specific folder path
-                var userFolderPath = Path.Combine(@"C:\Users\jbaldovino\Documents\DocumentosInfantia", userName);
+                var userFolderPath = Path.Combine(@"C:\Users\CIDHUM\Documents\DocumentosInfantia", userName);
 
                 // Create the user folder if it doesn't exist
                 if (!Directory.Exists(userFolderPath))
@@ -119,7 +119,7 @@ namespace infantiaApi.Controllers
             }
         }
 
-        [HttpDelete("DeleteFile/{folderName}/{fileName}")]
+        [HttpPost("DeleteFile")]
         public IActionResult DeleteDocument(string folderName, string fileName)
         {
             try
@@ -145,7 +145,7 @@ namespace infantiaApi.Controllers
                 // Delete the file
                 System.IO.File.Delete(filePath);
 
-                return Ok("File deleted successfully.");
+                return Ok("Archivo Eliminado Exitosamente");
             }
             catch (Exception ex)
             {

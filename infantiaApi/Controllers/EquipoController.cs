@@ -70,8 +70,8 @@ namespace infantiaApi.Controllers
                 {
                     // Check and regenerate the token if necessary
                     var token = _equipoRepository.GenerateAndStoreToken(equipo.cedulaMiembro);
-
-                    return Ok(new { Token = token });
+                    var usuario = await GetEquipo(equipo.cedulaMiembro);
+                    return Ok(usuario);
                 }
                 else
                 {
@@ -84,8 +84,6 @@ namespace infantiaApi.Controllers
                 return StatusCode(500, "An error occurred while processing the request.");
             }
         }
-
-
 
     }
 }

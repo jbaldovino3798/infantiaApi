@@ -47,7 +47,7 @@ namespace infantiaApi.Repositories
 
             // Generate a random token for the new user
             equipo.token = GenerateRandomToken(32); // You can specify the desired token length
-            equipo.fechaExpiracionToken = DateTime.UtcNow.AddHours(1); // Token expiration time
+            equipo.fechaExpiracionToken = DateTime.UtcNow.AddHours(1)+""; // Token expiration time
 
             // Hash the password before storing it
             equipo.password = HashPassword(equipo.password);
@@ -91,7 +91,7 @@ namespace infantiaApi.Repositories
                 if (string.IsNullOrEmpty(equipo.token))
                 {
                     equipo.token = GenerateRandomToken(32); // You can specify the desired token length
-                    equipo.fechaExpiracionToken = DateTime.UtcNow.AddHours(1); // Token expiration time
+                    equipo.fechaExpiracionToken = DateTime.UtcNow.AddHours(1)+""; // Token expiration time
 
                     // Store the token and its expiration date in the database
                     var db = dbConnection();
@@ -135,7 +135,7 @@ namespace infantiaApi.Repositories
             if (equipo != null)
             {
                 // Check if the token is expired
-                if (equipo.fechaExpiracionToken <= DateTime.UtcNow)
+                if (DateTime.Parse(equipo.fechaExpiracionToken) <= DateTime.UtcNow)
                 {
                     // Token is expired; regenerate it
                     await GenerateAndStoreToken(cedulaMiembro); // Await the asynchronous method
