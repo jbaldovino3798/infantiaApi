@@ -26,11 +26,11 @@ namespace infantiaApi.Repositories
             var sql = @" Select * from sms ";
             return await db.QueryAsync<Sms>(sql, new { });
         }
-        public async Task<IEnumerable<Sms>> GetAllbyPerfil(int idPerfil)
+        public async Task<IEnumerable<Sms>> GetAllbyGrupo(int idGrupo)
         {
             var db = dbConnection();
-            var sql = @" Select * from sms where idPerfil = @IdPerfil";
-            return await db.QueryAsync<Sms>(sql, new { IdPerfil = idPerfil });
+            var sql = @" Select * from sms where idGrupo = @IdGrupo";
+            return await db.QueryAsync<Sms>(sql, new { IdGrupo = idGrupo });
         }
         public async Task<Sms> GetSms(int idSms)
         {

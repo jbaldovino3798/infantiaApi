@@ -12,7 +12,7 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-        public async Task<bool> DeleteValoracion(Valoracion valoracion)
+        public async Task<bool> DeleteValoracion(Valoracion valoracion) 
         {
             var db = dbConnection();
             var sql = @" delete from valoracion 
@@ -35,11 +35,13 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertValoracion(Valoracion valoracion)
         {
             var db = dbConnection();
-            var sql = @" insert into valoracion (valor)
-                        values (@Valor) ";
+            var sql = @" insert into valoracion (valor, usuarioCreacion, fechaCreacion)
+                        values (@Valor, @UsuarioCreacion, @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new
             {
-                valoracion.valor
+                valoracion.valor,
+                valoracion.usuarioCreacion,
+                valoracion.fechaCreacion
             });
             return result > 0;
         }

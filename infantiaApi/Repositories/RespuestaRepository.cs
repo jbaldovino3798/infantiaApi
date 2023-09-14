@@ -26,13 +26,6 @@ namespace infantiaApi.Repositories
             var sql = @" Select * from respuesta ";
             return await db.QueryAsync<Respuesta>(sql, new { });
         }
-        public async Task<IEnumerable<Respuesta>> GetAllbyCuidador(int cedulaCuidador)
-        {
-            var db = dbConnection();
-            var sql = @" select * from respuesta 
-                         where cedulaCuidador = @CedulaCuidador ";
-            return await db.QueryAsync<Respuesta>(sql, new { CedulaCuidador = cedulaCuidador });
-        }
         public async Task<IEnumerable<Respuesta>> GetAllbyPregunta(int idPregunta)
         {
             var db = dbConnection();
@@ -51,13 +44,14 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertRespuesta(Respuesta respuesta)
         {
             var db = dbConnection();
-            var sql = @" insert into respuesta (idPregunta, cedulaCuidador, respuesta)
+            var sql = @" insert into respuesta (idPregunta, respuesta, usuarioCreacion, fechaCreacion)
                         values (@IdPregunta, @CedulaCuidador, @Respuesta) ";
             var result = await db.ExecuteAsync(sql, new
             {
                 respuesta.idPregunta,
-                respuesta.cedulaCuidador,
-                respuesta.respuesta
+                respuesta.respuesta,
+                respuesta.usuarioCreacion,
+                respuesta.fechaCreacion
             });
             return result > 0;
         }
@@ -65,15 +59,17 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" update respuesta 
-                         set idPregunta =  @IdPregunta,
-                             cedulaCuidador = @CedulaCuidador,
-                             respuesta = @Respuesta
+                         set idPregunta =  @IdPregunta, 
+                             respuesta = @Respuesta,
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where idRespuesta = @IdRespuesta";
             var result = await db.ExecuteAsync(sql, new
             {
                 respuesta.idPregunta,
-                respuesta.cedulaCuidador,
                 respuesta.respuesta,
+                respuesta.usuarioActualizacion,
+                respuesta.fechaActualizacion,
                 respuesta.idRespuesta
             });
             return result > 0;

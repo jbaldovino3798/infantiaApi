@@ -6,7 +6,6 @@ namespace infantiaApi.Interfaces
     {
         Task<IEnumerable<Respuesta>> GetAll();
         Task<IEnumerable<Respuesta>> GetAllbyPregunta(int idPregunta);
-        Task<IEnumerable<Respuesta>> GetAllbyCuidador(int cedulaCuidador);
         Task<Respuesta> GetRespuesta(int idRespuesta);
         Task<bool> InsertRespuesta(Respuesta respuesta);
         Task<bool> UpdateRespuesta(Respuesta respuesta);

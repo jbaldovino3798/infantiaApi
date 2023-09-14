@@ -7,6 +7,8 @@ namespace infantiaApi.Models
         [Required]
         public int idPonderacion { get; set; }
         [Required]
+        public int idPregunta { get; set; }
+        [Required]
         public double valor { get; set; }
         public int estado { get; set; }
         [Required]

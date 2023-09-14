@@ -35,11 +35,13 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertTemporalidad(Temporalidad temporalidad)
         {
             var db = dbConnection();
-            var sql = @" insert into temporalidad (descripcionTemporalidad)
-                        values (@DescripcionTemporalidad) ";
+            var sql = @" insert into temporalidad (descripcion, usuarioCreacion, fechaCreacion)
+                        values (@Descripcion) ";
             var result = await db.ExecuteAsync(sql, new
             {
-                temporalidad.descripcionTemporalidad
+                temporalidad.descripcion,
+                temporalidad.usuarioCreacion,
+                temporalidad.fechaCreacion
             });
             return result > 0;
         }
@@ -47,11 +49,13 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" update  temporalidad 
-                         set descripcionTemporalidad = @DescripcionTemporalidad 
+                         set descripcion = @Descripcion 
                          where idTemporalidad = @IdTemporalidad";
             var result = await db.ExecuteAsync(sql, new
             {
-                temporalidad.descripcionTemporalidad,
+                temporalidad.descripcion,
+                temporalidad.usuarioActualizacion,
+                temporalidad.fechaActualizacion,
                 temporalidad.idTemporalidad
             });
             return result > 0;
