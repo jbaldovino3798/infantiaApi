@@ -63,7 +63,11 @@ namespace infantiaApi.Repositories
 
             // Generate a random token for the new user
             equipo.token = GenerateRandomToken(32); // You can specify the desired token length
-            equipo.fechaExpiracionToken = DateTime.UtcNow.AddHours(1)+""; // Token expiration time
+            DateTime fechaExpiracion = DateTime.Now.AddHours(1);
+            DateTime fechaCreacion = DateTime.Now;
+            equipo.fechaExpiracionToken = fechaExpiracion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            equipo.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            equipo.usuarioCreacion = "APPWEB";
 
             // Hash the password before storing it
             equipo.password = HashPassword(equipo.password);
@@ -93,11 +97,18 @@ namespace infantiaApi.Repositories
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
                          where cedulaMiembro = @CedulaMiembro ";
+
+            DateTime fechaActualizacion = DateTime.Now;
+            equipo.fechaActualizacion = fechaActualizacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            equipo.usuarioActualizacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
                 {
                     equipo.nombreMiembro,
                     equipo.ocupacion,
                     equipo.rol,
+                    equipo.usuarioActualizacion,
+                    equipo.fechaActualizacion,
                     equipo.cedulaMiembro
                 });
             return result > 0;
@@ -111,7 +122,8 @@ namespace infantiaApi.Repositories
                 if (string.IsNullOrEmpty(equipo.token))
                 {
                     equipo.token = GenerateRandomToken(32); // You can specify the desired token length
-                    equipo.fechaExpiracionToken = DateTime.UtcNow.AddHours(1)+""; // Token expiration time
+                    DateTime fechaExpiracion = DateTime.Now.AddHours(1);
+                    equipo.fechaExpiracionToken = fechaExpiracion.ToString("yyyy-MM-dd H:mm:ss"); ; // Token expiration time
 
                     // Store the token and its expiration date in the database
                     var db = dbConnection();

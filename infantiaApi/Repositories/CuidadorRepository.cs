@@ -68,6 +68,11 @@ namespace infantiaApi.Repositories
                                 @IdPerfil,
                                 @UsuarioCreacion,
                                 @FechaCreacion) ";
+
+            DateTime fechaCreacion = DateTime.Now;
+            cuidador.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            cuidador.usuarioCreacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new 
                 { cuidador.cedulaCuidador, 
                   cuidador.nombreCuidador, 
@@ -122,6 +127,11 @@ namespace infantiaApi.Repositories
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion,
                         where cedulaCuidador = @CedulaCuidador";
+
+            DateTime fechaActualizacion = DateTime.Now;
+            cuidador.fechaActualizacion = fechaActualizacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            cuidador.usuarioActualizacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
             {
                 cuidador.nombreCuidador,

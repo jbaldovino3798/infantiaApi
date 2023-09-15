@@ -39,6 +39,11 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" insert into Municipio (descripcion, usuarioCreacion, fechaCreacion)
                         values (@Descripcion, @UsuarioCreacion, @FechaCreacion) ";
+
+            DateTime fechaCreacion = DateTime.Now;
+            municipio.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            municipio.usuarioCreacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
                 {
                 municipio.descripcion,
@@ -55,6 +60,11 @@ namespace infantiaApi.Repositories
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
                         where codigoMunicipio = @CodigoMunicipio";
+
+            DateTime fechaActualizacion = DateTime.Now;
+            municipio.fechaActualizacion = fechaActualizacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            municipio.usuarioActualizacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
                 {
                     municipio.descripcion,

@@ -39,6 +39,11 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" insert into GrupoParticipante (descripcionGrupo, usuarioCreacion, fechaCreacion)
                         values (@DescripcionGrupo, @UsuarioCreacion, @FechaCreacion) ";
+
+            DateTime fechaCreacion = DateTime.Now;
+            grupoParticipante.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            grupoParticipante.usuarioCreacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
                 {
                     grupoParticipante.descripcionGrupo,
@@ -55,6 +60,11 @@ namespace infantiaApi.Repositories
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
                         where idGrupoParticipante = @IdGrupoParticipante";
+
+            DateTime fechaActualizacion = DateTime.Now;
+            grupoParticipante.fechaActualizacion = fechaActualizacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            grupoParticipante.usuarioActualizacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
                 {
                     grupoParticipante.descripcionGrupo,

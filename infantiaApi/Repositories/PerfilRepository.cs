@@ -39,6 +39,11 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" insert into perfil (descripcion, usuarioCreacion, fechaCreacion)
                         values (@Descripcion, @UsuarioCreacion, @FechaCreacion) ";
+
+            DateTime fechaCreacion = DateTime.Now;
+            perfil.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            perfil.usuarioCreacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
                 {
                     perfil.descripcion,
@@ -55,6 +60,11 @@ namespace infantiaApi.Repositories
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
                         where idPerfil = @IdPerfil ";
+
+            DateTime fechaActualizacion = DateTime.Now;
+            perfil.fechaActualizacion = fechaActualizacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            perfil.usuarioActualizacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
             {
                 perfil.descripcion,

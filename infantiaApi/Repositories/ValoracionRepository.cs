@@ -37,6 +37,11 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" insert into valoracion (valor, usuarioCreacion, fechaCreacion)
                         values (@Valor, @UsuarioCreacion, @FechaCreacion) ";
+
+            DateTime fechaCreacion = DateTime.Now;
+            valoracion.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            valoracion.usuarioCreacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
             {
                 valoracion.valor,
@@ -51,6 +56,11 @@ namespace infantiaApi.Repositories
             var sql = @" update  valoracion 
                          set valor = @Valor 
                          where idValoracion = @IdValoracion";
+
+            DateTime fechaActualizacion = DateTime.Now;
+            valoracion.fechaActualizacion = fechaActualizacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
+            valoracion.usuarioActualizacion = "APPWEB";
+
             var result = await db.ExecuteAsync(sql, new
             {
                 valoracion.valor,
