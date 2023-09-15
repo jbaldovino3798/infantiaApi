@@ -11,13 +11,13 @@ namespace infantiaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PerfilController : ControllerBase
+    public class PonderacionController : ControllerBase
     {
-        private readonly IPerfil _perfilRepository;
+        private readonly IPonderacion _ponderacionRepository;
 
-        public PerfilController(IPerfil perfilRepository)
+        public PonderacionController(IPonderacion ponderacionRepository)
         {
-            _perfilRepository = perfilRepository;
+            _ponderacionRepository = ponderacionRepository;
         }
 
         [HttpGet("[action]")]
@@ -25,45 +25,45 @@ namespace infantiaApi.Controllers
         {
             /*String data = JsonSerializer.Serialize(await _perfilRepository.GetAll());
             return Ok(data);*/
-            return Ok(await _perfilRepository.GetAll());
+            return Ok(await _ponderacionRepository.GetAll());
         }
 
-        [HttpGet("[action]/{idPerfil}")]
-        public async Task<IActionResult> GetPerfil(int idPerfil)
+        [HttpGet("[action]/{idPonderacion}")]
+        public async Task<IActionResult> GetPonderacion(int idPonderacion)
         {
-            return Ok(await _perfilRepository.GetPerfil(idPerfil));
+            return Ok(await _ponderacionRepository.GetPonderacion(idPonderacion));
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreatePerfil([FromBody] Perfil perfil)
+        public async Task<IActionResult> CreatePonderacion([FromBody] Ponderacion ponderacion)
         {
-            if (perfil == null)
+            if (ponderacion == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _perfilRepository.InsertPerfil(perfil);
+            var created = await _ponderacionRepository.InsertPonderacion(ponderacion);
             return Created("created", created);
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdatePerfil([FromBody] Perfil perfil)
+        public async Task<IActionResult> UpdatePonderacion([FromBody] Ponderacion ponderacion)
         {
-            if (perfil == null)
+            if (ponderacion == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _perfilRepository.UpdatePerfil(perfil);
+            await _ponderacionRepository.UpdatePonderacion(ponderacion);
             return NoContent();
         }
 
-        [HttpDelete("[action]/{idPerfil}")]
-        public async Task<IActionResult> DeletePerfil(int idPerfil)
+        [HttpDelete("[action]/{idPonderacion}")]
+        public async Task<IActionResult> DeletePonderacion(int idPonderacion)
         {
-            await _perfilRepository.DeletePerfil(new Perfil { idPerfil = idPerfil });
+            await _ponderacionRepository.DeletePonderacion(new Ponderacion { idPonderacion = idPonderacion });
             return NoContent();
         }
     }

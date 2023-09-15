@@ -8,57 +8,50 @@ namespace infantiaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SmsController : ControllerBase
+    public class MunicipioController : ControllerBase
     {
-        private readonly ISms _smsRepository;
+        private readonly IMunicipio _municipioRepository;
 
-        public SmsController(ISms smsRepository)
+        public MunicipioController(IMunicipio municipioRepository)
         {
-            _smsRepository = smsRepository;
+            _municipioRepository = municipioRepository;
         }
 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _smsRepository.GetAll());
+            return Ok(await _municipioRepository.GetAll());
         }
-
-        [HttpGet("[action]/{idGrupo}")]
-        public async Task<IActionResult> GetAllbyGrupo(int idGrupo)
-        {
-            return Ok(await _smsRepository.GetAllbyGrupo(idGrupo));
-        }
-
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateSms([FromBody] Sms sms)
+        public async Task<IActionResult> CreateMunicipio([FromBody] Municipio municipio)
         {
-            if (sms == null)
+            if (municipio == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _smsRepository.InsertSms(sms);
+            var created = await _municipioRepository.InsertMunicipio(municipio);
             return Created("created", created);
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateSms([FromBody] Sms sms)
+        public async Task<IActionResult> UpdateMunicipio([FromBody] Municipio municipio)
         {
-            if (sms == null)
+            if (municipio == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _smsRepository.UpdateSms(sms);
+            await _municipioRepository.UpdateMunicipio(municipio);
             return NoContent();
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteSms(int idSms)
+        public async Task<IActionResult> DeleteMunicipio(string codigoMunicipio)
         {
-            await _smsRepository.DeleteSms(new Sms { idSms = idSms });
+            await _municipioRepository.DeleteMunicipio(new Municipio { codigoMunicipio = codigoMunicipio });
             return NoContent();
         }
 

@@ -43,31 +43,37 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertSms(Sms sms)
         {
             var db = dbConnection();
-            var sql = @" insert into sms (idPerfil, mensaje, estado)
-                        values (@IdPerfil, @Mensaje, @Estado) ";
+            var sql = @" insert into sms (idGrupo, mensaje, estado, usuarioCreacion, fechaCreacion)
+                        values (@IdGrupo, @Mensaje, @Estado, @UsuarioCreacion, @FechaCreacion) ";
             var result = await db.ExecuteAsync(sql, new
-            {
-                sms.idPerfil,
-                sms.mensaje,
-                sms.estado
-            });
+                {
+                    sms.idGrupo,
+                    sms.mensaje,
+                    sms.estado,
+                    sms.usuarioCreacion,
+                    sms.fechaCreacion
+                });
             return result > 0;
         }
         public async Task<bool> UpdateSms(Sms sms)
         {
             var db = dbConnection();
             var sql = @" update  sms 
-                         set idPerfil = @IdPerfil, 
+                         set idGrupo = @IdGrupo, 
                             mensaje = @Mensaje, 
-                            estado = @Estado 
+                            estado = @Estado ,
+                            usuarioActualizacion = @UsuarioActualizacion,
+                            fechaActualizacion = @FechaActualizacion
                          where idSms = @IdSms";
             var result = await db.ExecuteAsync(sql, new
-            {
-                sms.idPerfil,
-                sms.mensaje,
-                sms.estado,
-                sms.idSms
-            });
+                {
+                    sms.idGrupo,
+                    sms.mensaje,
+                    sms.estado,
+                    sms.usuarioActualizacion,
+                    sms.fechaActualizacion,
+                    sms.idSms
+                });
             return result > 0;
         }
         protected MySqlConnection dbConnection()

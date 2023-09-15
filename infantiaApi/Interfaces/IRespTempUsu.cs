@@ -12,7 +12,7 @@ namespace infantiaApi.Interfaces
         Task<IEnumerable<RespTempUsu>> GetAllRespTempUsubyRespuesta(int idRespuesta);
         Task<RespTempUsu> GetRespTempUsu(RespTempUsu respTempUsu);
         Task<bool> InsertRespTempUsu(RespTempUsu respTempUsu);
-        Task<bool> UpdateRespTempUsu(RespTempUsu respTempUsu);
+        //Task<bool> UpdateRespTempUsu(RespTempUsu respTempUsu);
         Task<bool> DeleteRespTempUsu(RespTempUsu respTempUsu);
     }
 }

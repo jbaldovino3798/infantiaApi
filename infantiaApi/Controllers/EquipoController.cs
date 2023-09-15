@@ -81,7 +81,7 @@ namespace infantiaApi.Controllers
             catch (Exception ex)
             {
                 // Handle exceptions appropriately (e.g., log them)
-                return StatusCode(500, "An error occurred while processing the request.");
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
             }
         }
 

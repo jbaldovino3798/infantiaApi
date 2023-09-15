@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Dapper;
 using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using MySql.Data.MySqlClient;

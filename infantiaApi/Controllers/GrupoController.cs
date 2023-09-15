@@ -8,57 +8,50 @@ namespace infantiaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SmsController : ControllerBase
+    public class GrupoController : ControllerBase
     {
-        private readonly ISms _smsRepository;
+        private readonly IGrupo _grupoRepository;
 
-        public SmsController(ISms smsRepository)
+        public GrupoController(IGrupo grupoRepository)
         {
-            _smsRepository = smsRepository;
+            _grupoRepository = grupoRepository;
         }
 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _smsRepository.GetAll());
+            return Ok(await _grupoRepository.GetAll());
         }
-
-        [HttpGet("[action]/{idGrupo}")]
-        public async Task<IActionResult> GetAllbyGrupo(int idGrupo)
-        {
-            return Ok(await _smsRepository.GetAllbyGrupo(idGrupo));
-        }
-
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateSms([FromBody] Sms sms)
+        public async Task<IActionResult> CreateGrupo([FromBody] Grupo grupo)
         {
-            if (sms == null)
+            if (grupo == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _smsRepository.InsertSms(sms);
+            var created = await _grupoRepository.InsertGrupo(grupo);
             return Created("created", created);
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateSms([FromBody] Sms sms)
+        public async Task<IActionResult> UpdateGrupo([FromBody] Grupo grupo)
         {
-            if (sms == null)
+            if (grupo == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _smsRepository.UpdateSms(sms);
+            await _grupoRepository.UpdateGrupo(grupo);
             return NoContent();
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteSms(int idSms)
+        public async Task<IActionResult> DeleteGrupo(int idGrupo)
         {
-            await _smsRepository.DeleteSms(new Sms { idSms = idSms });
+            await _grupoRepository.DeleteGrupo(new Grupo { idGrupo = idGrupo });
             return NoContent();
         }
 

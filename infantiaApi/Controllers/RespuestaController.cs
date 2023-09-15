@@ -29,11 +29,11 @@ namespace infantiaApi.Controllers
             return Ok(await _respuestaRepository.GetAllbyPregunta(idPregunta));
         }
 
-        [HttpGet("[action]/{cedulaCuidador}")]
+        /*[HttpGet("[action]/{cedulaCuidador}")]
         public async Task<IActionResult> GetAllbyCuidador(int cedulaCuidador)
         {
             return Ok(await _respuestaRepository.GetAllbyCuidador(cedulaCuidador));
-        }
+        }*/
 
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePregunta([FromBody] Respuesta respuesta)

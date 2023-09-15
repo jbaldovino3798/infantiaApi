@@ -25,15 +25,20 @@ var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnect
 builder.Services.AddSingleton(mySQLConfiguration);
 
 builder.Services.AddScoped<ICuidador, CuidadorRepository>();
+builder.Services.AddScoped<IEquipo, EquipoRepository>();
 builder.Services.AddScoped<IFormulario, FormularioRepository>();
+builder.Services.AddScoped<IGrupo, GrupoRepository>();
+builder.Services.AddScoped<IGrupoParticipante, GrupoParticipanteRepository>();
+builder.Services.AddScoped<IMunicipio, MunicipioRepository>();
+builder.Services.AddScoped<IPerfil, PerfilRepository>();
+builder.Services.AddScoped<IPonderacion, PonderacionRepository>();
 builder.Services.AddScoped<IPregunta, PreguntaRepository>();
+builder.Services.AddScoped<IPreguntaFormulario, PreguntaFormularioRepository>();
+builder.Services.AddScoped<IRespTempUsu, RespTempUsuRepository>();
 builder.Services.AddScoped<IRespuesta, RespuestaRepository>();
 builder.Services.AddScoped<ISms, SmsRepository>();
 builder.Services.AddScoped<ITemporalidad, TemporalidadRepository>();
-builder.Services.AddScoped<ICuidadorFormulario, CuidadorFormularioRepository>();
 builder.Services.AddScoped<IValoracion, ValoracionRepository>();
-builder.Services.AddScoped<IEquipo, EquipoRepository>();
-builder.Services.AddScoped<IPerfil, PerfilRepository>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", 

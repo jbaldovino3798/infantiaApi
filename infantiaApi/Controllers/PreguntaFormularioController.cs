@@ -7,25 +7,25 @@ namespace infantiaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CuidadorFormularioController : ControllerBase
+    public class PreguntaFormularioController : ControllerBase
     {
-        private readonly ICuidadorFormulario _cuidadorFormularioRepository;
+        private readonly IPreguntaFormulario _preguntaFormularioRepository;
 
-        public CuidadorFormularioController(ICuidadorFormulario cuidadorFormularioRepository)
+        public PreguntaFormularioController(IPreguntaFormulario preguntaFormularioRepository)
         {
-            _cuidadorFormularioRepository = cuidadorFormularioRepository;
+            _preguntaFormularioRepository = preguntaFormularioRepository;
         }
 
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _cuidadorFormularioRepository.GetAll());
+            return Ok(await _preguntaFormularioRepository.GetAll());
         }
 
-        [HttpGet("[action]/{cedulaCuidador}/{idFormulario}")]
+        /*[HttpGet("[action]/{cedulaCuidador}/{idFormulario}")]
         public async Task<IActionResult> GetCuidador(int cedulaCuidador, int idFormulario)
         {
-            return Ok(await _cuidadorFormularioRepository.GetCuidadorFormulario(cedulaCuidador, idFormulario));
+            return Ok(await _preguntaFormularioRepository.GetCuidadorFormulario(cedulaCuidador, idFormulario));
         }
 
         [HttpGet("[action]/{idFormulario}")]
@@ -39,38 +39,39 @@ namespace infantiaApi.Controllers
         {
             return Ok(await _cuidadorFormularioRepository.GetAllbyCuidador(cedulaCuidador));
         }
-
+        */
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateCuidador([FromBody] CuidadorFormulario cuidadorFormulario)
+        public async Task<IActionResult> CreatePreguntaFormulario([FromBody] PreguntaFormulario preguntaFormulario)
         {
-            if (cuidadorFormulario == null)
+            if (preguntaFormulario == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _cuidadorFormularioRepository.InsertCuidadorFormulario(cuidadorFormulario);
+            var created = await _preguntaFormularioRepository.InsertPreguntaFormulario(preguntaFormulario);
             return Created("created", created);
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateCuidador([FromBody] CuidadorFormulario cuidadorFormulario)
+        public async Task<IActionResult> UpdateCuidador([FromBody] PreguntaFormulario preguntaFormulario)
         {
-            if (cuidadorFormulario == null)
+            if (preguntaFormulario == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _cuidadorFormularioRepository.UpdateCuidadorFormulario(cuidadorFormulario);
+            await _preguntaFormularioRepository.UpdatePreguntaFormulario(preguntaFormulario);
             return NoContent();
         }
 
-        [HttpDelete("[action]/{cedulaCuidador}/{idFormulario}")]
-        public async Task<IActionResult> DeleteCuidador(int cedulaCuidador, int idFormulario)
+        [HttpDelete("[action]/{idPregunta}/{idFormulario}")]
+        public async Task<IActionResult> DeleteCuidador(int idPregunta, int idFormulario)
         {
-            await _cuidadorFormularioRepository.DeleteCuidadorFormulario(new CuidadorFormulario { 
-                cedulaCuidador = cedulaCuidador,
+            await _preguntaFormularioRepository.DeletePreguntaFormulario(new PreguntaFormulario
+            { 
+                idPregunta = idPregunta,
                 idFormulario = idFormulario});
             return NoContent();
         }

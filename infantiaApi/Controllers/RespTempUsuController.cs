@@ -70,7 +70,7 @@ namespace infantiaApi.Controllers
             return Created("created", created);
         }
 
-        [HttpPut("[action]")]
+        /*[HttpPut("[action]")]
         public async Task<IActionResult> UpdateCuidador([FromBody] RespTempUsu respTempUsu)
         {
             if (respTempUsu == null)
@@ -81,7 +81,7 @@ namespace infantiaApi.Controllers
 
             await _respTempUsuRepository.UpdateRespTempUsu(respTempUsu);
             return NoContent();
-        }
+        }*/
 
         [HttpDelete("[action]/{cedulaCuidador}/{idFormulario}")]
         public async Task<IActionResult> DeleteCuidador([FromBody] RespTempUsu respTempUsu)
