@@ -26,14 +26,15 @@ namespace infantiaApi.Repositories
             var sql = @" Select * from pregunta";
             return await db.QueryAsync<PreguntaFormulario>(sql, new { });
         }
-        /*public async Task<PreguntaFormulario> GetPreguntaFormulario(int idPregunta)
+        public async Task<IEnumerable<Pregunta>> GetPreguntasbyFormulario(int idFormulario)
         {
             var db = dbConnection();
-            var sql = @" Select *
-                        from pregunta
-                        where idPregunta = @IdPregunta ";
-            return await db.QueryFirstOrDefaultAsync<PreguntaFormulario>(sql, new { IdPreguntaFormulario = idPreguntaFormulario });
-        }*/
+            var sql = @" Select p.*
+                        from pregunta p
+                        inner join pregunta_formulario pf on p.idPregunta = pf.idPregunta
+                        where pf.idFormulario = @IdFormulario ";
+            return await db.QueryAsync<Pregunta>(sql, new { IdFormulario = idFormulario });
+        }
         public async Task<bool> InsertPreguntaFormulario(PreguntaFormulario preguntaFormulario)
         {
             var db = dbConnection();
@@ -60,7 +61,7 @@ namespace infantiaApi.Repositories
                          set idPregunta =  @IdPregunta,
                              idFormulario = @IdFormulario,
                              usuarioActualizacion = @UsuarioActualizacion,
-                             fechaActualizacion = @FechaActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where idPreguntaFormulario = @IdPreguntaFormulario";
 
             DateTime fechaActualizacion = DateTime.Now;

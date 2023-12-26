@@ -37,32 +37,34 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertPregunta(Pregunta pregunta)
         {
             var db = dbConnection();
-            var sql = @" insert into pregunta (idPonderacion, pregunta, tipoDato, usuarioCreacion, fechaCreacion)
-                        values (@IdPonderacion, @Pregunta, @TipoDato, @UsuarioCreacion, @FechaCreacion) ";
+            var sql = @" insert into pregunta (idTipoPregunta,idPonderacion, pregunta, tipoDato, usuarioCreacion, fechaCreacion)
+                        values ( @IdTipoPregunta, @IdPonderacion, @Pregunta, @TipoDato, @UsuarioCreacion, @FechaCreacion) ";
 
             DateTime fechaCreacion = DateTime.Now;
             pregunta.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
             pregunta.usuarioCreacion = "APPWEB";
 
             var result = await db.ExecuteAsync(sql, new
-                {
-                    pregunta.idPonderacion,
-                    pregunta.pregunta,
-                    pregunta.tipoDato,
-                    pregunta.usuarioCreacion,
-                    pregunta.fechaCreacion
-                });
+            {
+                pregunta.idTipoPregunta,
+                pregunta.idPonderacion,
+                pregunta.pregunta,
+                pregunta.tipoDato,
+                pregunta.usuarioCreacion,
+                pregunta.fechaCreacion
+            });
             return result > 0;
         }
         public async Task<bool> UpdatePregunta(Pregunta pregunta)
         {
             var db = dbConnection();
             var sql = @" update pregunta 
-                         set idPonderacion =  @IdPonderacion,
+                         set idTipoPregunta =  @IdTipoPregunta,
+                             idPonderacion =  @IdPonderacion,
                              pregunta = @Pregunta,
                              tipoDato = @TipoDato,
                              usuarioActualizacion = @UsuarioActualizacion,
-                             fechaActualizacion = @FechaActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where idPregunta = @IdPregunta";
 
             DateTime fechaActualizacion = DateTime.Now;
@@ -71,6 +73,7 @@ namespace infantiaApi.Repositories
 
             var result = await db.ExecuteAsync(sql, new
             {
+                pregunta.idTipoPregunta,
                 pregunta.idPonderacion,
                 pregunta.pregunta,
                 pregunta.tipoDato,

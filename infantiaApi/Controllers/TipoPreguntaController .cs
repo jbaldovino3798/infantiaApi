@@ -8,13 +8,13 @@ namespace infantiaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RespuestaController : ControllerBase
+    public class TipoPreguntaController : ControllerBase
     {
-        private readonly IRespuesta _respuestaRepository;
+        private readonly ITipoPregunta _tipoPreguntaRepository;
 
-        public RespuestaController(IRespuesta respuestaRepository)
+        public TipoPreguntaController(ITipoPregunta tipoPreguntaRepository)
         {
-            _respuestaRepository = respuestaRepository;
+            _tipoPreguntaRepository = tipoPreguntaRepository;
         }
 
         [HttpGet("[action]")]
@@ -22,7 +22,7 @@ namespace infantiaApi.Controllers
         {
             try
             {
-                return Ok(await _respuestaRepository.GetAll());
+                return Ok(await _tipoPreguntaRepository.GetAll());
             }
             catch (Exception ex)
             {
@@ -38,9 +38,9 @@ namespace infantiaApi.Controllers
         }*/
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateRespuesta([FromBody] Respuesta respuesta)
+        public async Task<IActionResult> CreateTipoPregunta([FromBody] TipoPregunta tipoPregunta)
         {
-            if (respuesta == null)
+            if (tipoPregunta == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
@@ -48,7 +48,7 @@ namespace infantiaApi.Controllers
 
             try
             {
-                var created = await _respuestaRepository.InsertRespuesta(respuesta);
+                var created = await _tipoPreguntaRepository.InsertTipoPregunta(tipoPregunta);
                 return Created("created", created);
             }
             catch (Exception ex)
@@ -59,9 +59,9 @@ namespace infantiaApi.Controllers
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateRespuesta([FromBody] Respuesta respuesta)
+        public async Task<IActionResult> UpdateTipoPregunta([FromBody] TipoPregunta tipoPregunta)
         {
-            if (respuesta == null)
+            if (tipoPregunta == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
@@ -69,7 +69,7 @@ namespace infantiaApi.Controllers
 
             try
             {
-                return Ok(await _respuestaRepository.UpdateRespuesta(respuesta));
+                return Ok(await _tipoPreguntaRepository.UpdateTipoPregunta(tipoPregunta));
             }
             catch (Exception ex)
             {
@@ -79,11 +79,11 @@ namespace infantiaApi.Controllers
         }
 
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteRespuesta(int idRespuesta)
+        public async Task<IActionResult> DeleteTipoPregunta(int idTipoPregunta)
         {
             try
             {
-                return Ok(await _respuestaRepository.DeleteRespuesta(new Respuesta { idRespuesta = idRespuesta }));
+                return Ok(await _tipoPreguntaRepository.DeleteTipoPregunta( idTipoPregunta));
             }
             catch (Exception ex)
             {

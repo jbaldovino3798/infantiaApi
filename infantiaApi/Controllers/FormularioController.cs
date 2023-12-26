@@ -20,7 +20,15 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _formularioRepository.GetAll());
+            try
+            {
+                return Ok(await _formularioRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateFormulario([FromBody] Formulario formulario)
@@ -31,8 +39,16 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _formularioRepository.InsertFormulario(formulario);
-            return Created("created", created);
+            try
+            {
+                var created = await _formularioRepository.InsertFormulario(formulario);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -44,15 +60,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _formularioRepository.UpdateFormulario(formulario);
-            return NoContent();
+            try
+            {                
+                return Ok(await _formularioRepository.UpdateFormulario(formulario));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteFormulario(int idFormulario)
         {
-            await _formularioRepository.DeleteFormulario(new Formulario { idFormulario = idFormulario });
-            return NoContent();
+            try
+            {                
+                return Ok(await _formularioRepository.DeleteFormulario(new Formulario { idFormulario = idFormulario }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
     }

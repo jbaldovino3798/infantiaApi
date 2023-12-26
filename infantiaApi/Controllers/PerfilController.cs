@@ -11,13 +11,13 @@ namespace infantiaApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PonderacionController : ControllerBase
+    public class PerfilController : ControllerBase
     {
-        private readonly IPonderacion _ponderacionRepository;
+        private readonly IPerfil _perfilRepository;
 
-        public PonderacionController(IPonderacion ponderacionRepository)
+        public PerfilController(IPerfil perfilRepository)
         {
-            _ponderacionRepository = ponderacionRepository;
+            _perfilRepository = perfilRepository;
         }
 
         [HttpGet("[action]")]
@@ -25,46 +25,84 @@ namespace infantiaApi.Controllers
         {
             /*String data = JsonSerializer.Serialize(await _perfilRepository.GetAll());
             return Ok(data);*/
-            return Ok(await _ponderacionRepository.GetAll());
+            try
+            {
+                return Ok(await _perfilRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
-        [HttpGet("[action]/{idPonderacion}")]
-        public async Task<IActionResult> GetPonderacion(int idPonderacion)
+        [HttpGet("[action]/{idPerfil}")]
+        public async Task<IActionResult> GetPerfil(int idPerfil)
         {
-            return Ok(await _ponderacionRepository.GetPonderacion(idPonderacion));
+            try
+            {
+                return Ok(await _perfilRepository.GetPerfil(idPerfil));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreatePonderacion([FromBody] Ponderacion ponderacion)
+        public async Task<IActionResult> CreatePerfil([FromBody] Perfil perfil)
         {
-            if (ponderacion == null)
+            if (perfil == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _ponderacionRepository.InsertPonderacion(ponderacion);
-            return Created("created", created);
+            try
+            {
+                var created = await _perfilRepository.InsertPerfil(perfil);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdatePonderacion([FromBody] Ponderacion ponderacion)
+        public async Task<IActionResult> UpdatePerfil([FromBody] Perfil perfil)
         {
-            if (ponderacion == null)
+            if (perfil == null)
                 return BadRequest();
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _ponderacionRepository.UpdatePonderacion(ponderacion);
-            return NoContent();
+            try
+            {                
+                return Ok(await _perfilRepository.UpdatePerfil(perfil));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
-        [HttpDelete("[action]/{idPonderacion}")]
-        public async Task<IActionResult> DeletePonderacion(int idPonderacion)
-        {
-            await _ponderacionRepository.DeletePonderacion(new Ponderacion { idPonderacion = idPonderacion });
-            return NoContent();
+        [HttpDelete("[action]/{idPerfil}")]
+        public async Task<IActionResult> DeletePerfil(int idPerfil)
+        {            
+            try
+            {
+                return Ok(await _perfilRepository.DeletePerfil(new Perfil { idPerfil = idPerfil }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
     }
 }

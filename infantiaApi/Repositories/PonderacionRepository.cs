@@ -12,12 +12,12 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-        public async Task<bool> DeletePonderacion(Ponderacion ponderacion)
+        public async Task<bool> DeletePonderacion(int idPonderacion)
         {
             var db = dbConnection();
-            var sql = @" delete from ponderacion 
-                         where idPregunta = @IdPregunta ";
-            var result = await db.ExecuteAsync(sql, new { IdPonderacion = ponderacion.idPonderacion });
+            var sql = @"delete from ponderacion 
+                         where idPonderacion = @IdPonderacion ";
+            var result = await db.ExecuteAsync(sql, new { IdPonderacion = idPonderacion });
             return result > 0;
         }
         public async Task<IEnumerable<Ponderacion>> GetAll()
@@ -37,8 +37,8 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertPonderacion(Ponderacion ponderacion)
         {
             var db = dbConnection();
-            var sql = @" insert into ponderacion (idPregunta, valor, usuarioCreacion, fechaCreacion)
-                        values (@IdPregunta, @Valor, @UsuarioCreacion, @FechaCreacion) ";
+            var sql = @" insert into ponderacion (valor, usuarioCreacion, fechaCreacion)
+                        values (@Valor, @UsuarioCreacion, @FechaCreacion) ";
 
             DateTime fechaCreacion = DateTime.Now;
             ponderacion.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
@@ -56,10 +56,9 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" update ponderacion 
-                         set idPregunta = @IdPregunta,
-                             valor = @Valor,
+                         set valor = @Valor,
                              usuarioActualizacion = @UsuarioActualizacion,
-                             fechaActualizacion = @FechaActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where idPonderacion = @IdPonderacion";
 
 
@@ -69,7 +68,6 @@ namespace infantiaApi.Repositories
 
             var result = await db.ExecuteAsync(sql, new
             {
-                ponderacion.idPregunta,
                 ponderacion.valor,
                 ponderacion.usuarioActualizacion,
                 ponderacion.fechaActualizacion,

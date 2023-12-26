@@ -20,13 +20,29 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _smsRepository.GetAll());
+            try
+            {
+                return Ok(await _smsRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpGet("[action]/{idGrupo}")]
         public async Task<IActionResult> GetAllbyGrupo(int idGrupo)
         {
-            return Ok(await _smsRepository.GetAllbyGrupo(idGrupo));
+            try
+            {
+                return Ok(await _smsRepository.GetAllbyGrupo(idGrupo));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPost("[action]")]
@@ -38,8 +54,16 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _smsRepository.InsertSms(sms);
-            return Created("created", created);
+            try
+            {
+                var created = await _smsRepository.InsertSms(sms);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -51,15 +75,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _smsRepository.UpdateSms(sms);
-            return NoContent();
+            try
+            {
+                return Ok(await _smsRepository.UpdateSms(sms));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteSms(int idSms)
         {
-            await _smsRepository.DeleteSms(new Sms { idSms = idSms });
-            return NoContent();
+            try
+            {
+                return Ok(await _smsRepository.DeleteSms(new Sms { idSms = idSms }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
     }

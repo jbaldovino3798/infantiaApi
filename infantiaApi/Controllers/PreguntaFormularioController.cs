@@ -1,5 +1,6 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using infantiaApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,29 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _preguntaFormularioRepository.GetAll());
+            try
+            {
+                return Ok(await _preguntaFormularioRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
+        }
+
+        [HttpGet("[action]/{idFormulario}")]
+        public async Task<IActionResult> GetPreguntasbyFormulario(int idFormulario)
+        {
+            try
+            {
+                return Ok(await _preguntaFormularioRepository.GetPreguntasbyFormulario(idFormulario));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         /*[HttpGet("[action]/{cedulaCuidador}/{idFormulario}")]
@@ -49,12 +72,20 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _preguntaFormularioRepository.InsertPreguntaFormulario(preguntaFormulario);
-            return Created("created", created);
+            try
+            {
+                var created = await _preguntaFormularioRepository.InsertPreguntaFormulario(preguntaFormulario);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
-        public async Task<IActionResult> UpdateCuidador([FromBody] PreguntaFormulario preguntaFormulario)
+        public async Task<IActionResult> UpdatePreguntaFormulario([FromBody] PreguntaFormulario preguntaFormulario)
         {
             if (preguntaFormulario == null)
                 return BadRequest();
@@ -62,18 +93,33 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _preguntaFormularioRepository.UpdatePreguntaFormulario(preguntaFormulario);
-            return NoContent();
+            try
+            {
+                return Ok(await _preguntaFormularioRepository.UpdatePreguntaFormulario(preguntaFormulario));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]/{idPregunta}/{idFormulario}")]
-        public async Task<IActionResult> DeleteCuidador(int idPregunta, int idFormulario)
+        public async Task<IActionResult> DeletePreguntaFormulario(int idPregunta, int idFormulario)
         {
-            await _preguntaFormularioRepository.DeletePreguntaFormulario(new PreguntaFormulario
-            { 
-                idPregunta = idPregunta,
-                idFormulario = idFormulario});
-            return NoContent();
+            try
+            {
+                return Ok(await _preguntaFormularioRepository.DeletePreguntaFormulario(new PreguntaFormulario
+                {
+                    idPregunta = idPregunta,
+                    idFormulario = idFormulario
+                }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
     }
 }

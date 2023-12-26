@@ -1,10 +1,12 @@
 ﻿using Dapper;
 using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Crypto.Generators;
 using System.Data;
+using System.Data.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -19,12 +21,12 @@ namespace infantiaApi.Repositories
         {
             _connectionString = connectionString;
         }
-        public async Task<bool> DeleteEquipo(Equipo equipo)
+        public async Task<bool> DeleteEquipo(int cedulaMiembro)
         {
             var db = dbConnection();
             var sql = @" delete from equipo 
                          where cedulaMiembro = @CedulaMiembro ";
-            var result = await db.ExecuteAsync(sql, new { CedulaMiembro = equipo.cedulaMiembro });
+            var result = await db.ExecuteAsync(sql, new { CedulaMiembro = cedulaMiembro });
             return result > 0;
         }
         public async Task<IEnumerable<Equipo>> GetAll()
@@ -38,6 +40,73 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" Select * from equipo where cedulaMiembro = @CedulaMiembro";
             return await db.QueryFirstOrDefaultAsync<Equipo>(sql, new { CedulaMiembro = cedulaMiembro });
+        }
+        /*public async Task<IActionResult> GetContenedores(int cedulaMiembro)
+        {
+            var db = dbConnection();
+            var sql = @" select distinct c.idContenedor as id, 
+		                                c.descripcion as title, 
+                                        'aside' as type,
+                                        c.icono as icon 
+                                from equipo e
+                                inner join rol_opcionessistema r on e.idRol = r.idRol
+                                inner join opcionessistema o on r.idopcionesSistema = o.idopcionesSistema
+                                inner join contenedor c on o.idContenedor = c.idContenedor
+                                where e.cedulaMiembro = @CedulaMiembro";
+            return await db.QueryFirstOrDefaultAsync<dynamic>(sql, new { CedulaMiembro = cedulaMiembro });
+        }
+
+        public async Task<IActionResult> GetOpcionesbyContenedor(int cedulaMiembro, int idContenedor)
+        {
+            var db = dbConnection();
+            var sql = @" select o.idopcionesSistema as id, 
+	                            o.idContenedor,
+		                        o.descripcion as title, 
+                                'scrollable' as type,
+                                o.icono as icon 
+                        from equipo e
+                        inner join rol_opcionessistema r on e.idRol = r.idRol
+                        inner join opcionessistema o on r.idopcionesSistema = o.idopcionesSistema 
+                        where e.cedulaMiembro = @CedulaMiembro
+                        and and o.idContenedor = @IdContenedor";
+            return await db.QueryFirstOrDefaultAsync<dynamic>(sql, new { CedulaMiembro = cedulaMiembro, IdContenedor = idContenedor });
+        }*/
+        public async Task<IEnumerable<dynamic>> GetOpcionesSistema(int cedulaMiembro)
+        {
+            var db = dbConnection();
+            var contenedoresSql = @"SELECT c.idContenedor as id, 
+                                       c.descripcion as title, 
+                                       'aside' as type,
+                                       c.icono as icon 
+                                FROM equipo e
+                                INNER JOIN rol_opcionessistema r ON e.idRol = r.idRol
+                                INNER JOIN opcionessistema o ON r.idopcionesSistema = o.idopcionesSistema
+                                INNER JOIN contenedor c ON o.idContenedor = c.idContenedor
+                                WHERE e.cedulaMiembro = @CedulaMiembro"
+            ;
+
+            var contenedores = await db.QueryAsync<dynamic>(contenedoresSql, new { CedulaMiembro = cedulaMiembro });
+
+            foreach (var contenedor in contenedores)
+            {
+                var idContenedor = contenedor.id;
+
+                var opcionesSql = @"SELECT o.idopcionesSistema as id, 
+                                        o.idContenedor,
+                                        o.descripcion as title, 
+                                        'scrollable' as type,
+                                        o.icono as icon 
+                                FROM equipo e
+                                INNER JOIN rol_opcionessistema r ON e.idRol = r.idRol
+                                INNER JOIN opcionessistema o ON r.idopcionesSistema = o.idopcionesSistema 
+                                WHERE e.cedulaMiembro = @CedulaMiembro
+                                AND o.idContenedor = @IdContenedor";
+
+                var opciones = await db.QueryAsync<dynamic>(opcionesSql, new { CedulaMiembro = cedulaMiembro, IdContenedor = idContenedor });
+
+                contenedor.children = opciones;
+            }
+            return contenedores; 
         }
         public async Task<bool> InsertEquipo(Equipo equipo)
         {
@@ -94,6 +163,7 @@ namespace infantiaApi.Repositories
                          set nombreMiembro = @NombreMiembro,
                              ocupacion = @Ocupacion,
                              rol = @Rol,
+                             estado = @Estado,
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
                          where cedulaMiembro = @CedulaMiembro ";
@@ -107,6 +177,7 @@ namespace infantiaApi.Repositories
                     equipo.nombreMiembro,
                     equipo.ocupacion,
                     equipo.rol,
+                    equipo.estado,
                     equipo.usuarioActualizacion,
                     equipo.fechaActualizacion,
                     equipo.cedulaMiembro

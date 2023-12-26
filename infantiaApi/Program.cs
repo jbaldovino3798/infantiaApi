@@ -5,7 +5,6 @@ using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-}); ;
+}); 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -39,6 +38,9 @@ builder.Services.AddScoped<IRespuesta, RespuestaRepository>();
 builder.Services.AddScoped<ISms, SmsRepository>();
 builder.Services.AddScoped<ITemporalidad, TemporalidadRepository>();
 builder.Services.AddScoped<IValoracion, ValoracionRepository>();
+builder.Services.AddScoped<ITipoPregunta, TipoPreguntaRepository>();
+builder.Services.AddScoped<IConfiguracionTipoPregunta, ConfiguracionTipoPreguntaRepository>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", 

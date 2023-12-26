@@ -37,8 +37,8 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertMunicipio(Municipio municipio)
         {
             var db = dbConnection();
-            var sql = @" insert into Municipio (descripcion, usuarioCreacion, fechaCreacion)
-                        values (@Descripcion, @UsuarioCreacion, @FechaCreacion) ";
+            var sql = @" insert into Municipio (codigoMunicipio, descripcion, usuarioCreacion, fechaCreacion)
+                        values (@CodigoMunicipio, @Descripcion, @UsuarioCreacion, @FechaCreacion) ";
 
             DateTime fechaCreacion = DateTime.Now;
             municipio.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
@@ -46,6 +46,7 @@ namespace infantiaApi.Repositories
 
             var result = await db.ExecuteAsync(sql, new
                 {
+                municipio.codigoMunicipio,
                 municipio.descripcion,
                 municipio.usuarioCreacion,
                 municipio.fechaCreacion

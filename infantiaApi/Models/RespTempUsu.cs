@@ -14,7 +14,6 @@ namespace infantiaApi.Models
         public int idPregunta { get; set; }
         [Required]
         public int idRespuesta { get; set; }
-        [Required]
         public string usuarioCreacion { get; set; }
         public string fechaCreacion { get; set; }
         public string usuarioActualizacion { get; set; }

@@ -15,7 +15,6 @@ namespace infantiaApi.Models
         public string password { get; set; }
         public string token { get; set; }
         public string fechaExpiracionToken { get; set; }
-        [Required]
         public string usuarioCreacion { get; set; }
         public string fechaCreacion { get; set; }
         public string usuarioActualizacion { get; set; }

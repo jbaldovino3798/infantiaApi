@@ -2,11 +2,14 @@
 
 namespace infantiaApi.Models
 {
-    public class Ponderacion
+    public class ConfiguracionTipoPregunta
     {
         [Required]
-        public int idPonderacion { get; set; }
-        public double valor { get; set; }
+        public int idConfiguracion { get; set; }
+        [Required]
+        public int idTipoPregunta { get; set; }
+        public string descripcion { get; set; }
+        public int orden { get; set; }
         public int estado { get; set; }
         public string usuarioCreacion { get; set; }
         public string fechaCreacion { get; set; }

@@ -26,13 +26,6 @@ namespace infantiaApi.Repositories
             var sql = @" Select * from respuesta ";
             return await db.QueryAsync<Respuesta>(sql, new { });
         }
-        public async Task<IEnumerable<Respuesta>> GetAllbyPregunta(int idPregunta)
-        {
-            var db = dbConnection();
-            var sql = @" select * from respuesta 
-                         where idPregunta = @IdPregunta ";
-            return await db.QueryAsync<Respuesta>(sql, new { IdPregunta = idPregunta });
-        }
         public async Task<Respuesta> GetRespuesta(int idRespuesta)
         {
             var db = dbConnection();
@@ -44,8 +37,8 @@ namespace infantiaApi.Repositories
         public async Task<bool> InsertRespuesta(Respuesta respuesta)
         {
             var db = dbConnection();
-            var sql = @" insert into respuesta (idPregunta, respuesta, usuarioCreacion, fechaCreacion)
-                        values (@IdPregunta, @CedulaCuidador, @Respuesta) ";
+            var sql = @" insert into respuesta (respuesta, usuarioCreacion, fechaCreacion)
+                        values (@IdPregunta, @Respuesta, @UsuarioCreacion, @FechaCreacion) ";
 
             DateTime fechaCreacion = DateTime.Now;
             respuesta.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
@@ -53,7 +46,6 @@ namespace infantiaApi.Repositories
 
             var result = await db.ExecuteAsync(sql, new
             {
-                respuesta.idPregunta,
                 respuesta.respuesta,
                 respuesta.usuarioCreacion,
                 respuesta.fechaCreacion
@@ -64,8 +56,7 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" update respuesta 
-                         set idPregunta =  @IdPregunta, 
-                             respuesta = @Respuesta,
+                         set respuesta = @Respuesta,
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
                         where idRespuesta = @IdRespuesta";
@@ -76,7 +67,6 @@ namespace infantiaApi.Repositories
 
             var result = await db.ExecuteAsync(sql, new
             {
-                respuesta.idPregunta,
                 respuesta.respuesta,
                 respuesta.usuarioActualizacion,
                 respuesta.fechaActualizacion,

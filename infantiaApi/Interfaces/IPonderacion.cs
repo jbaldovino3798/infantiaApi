@@ -8,6 +8,6 @@ namespace infantiaApi.Interfaces
         Task<Ponderacion> GetPonderacion(int idPonderacion);
         Task<bool> InsertPonderacion(Ponderacion ponderacion);
         Task<bool> UpdatePonderacion(Ponderacion ponderacion);
-        Task<bool> DeletePonderacion(Ponderacion ponderacion);
+        Task<bool> DeletePonderacion(int idPonderacion);
     }
 }

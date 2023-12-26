@@ -36,7 +36,7 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" insert into temporalidad (descripcion, usuarioCreacion, fechaCreacion)
-                        values (@Descripcion) ";
+                        values (@Descripcion, @UsuarioCreacion, @FechaCreacion) ";
 
             DateTime fechaCreacion = DateTime.Now;
             temporalidad.fechaCreacion = fechaCreacion.ToString("yyyy-MM-dd H:mm:ss"); // Token expiration time
@@ -54,7 +54,9 @@ namespace infantiaApi.Repositories
         {
             var db = dbConnection();
             var sql = @" update  temporalidad 
-                         set descripcion = @Descripcion 
+                         set descripcion = @Descripcion ,
+                             usuarioActualizacion = @UsuarioActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                          where idTemporalidad = @IdTemporalidad";
 
             DateTime fechaActualizacion = DateTime.Now;

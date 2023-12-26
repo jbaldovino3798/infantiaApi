@@ -125,7 +125,7 @@ namespace infantiaApi.Repositories
                              idGrupoParticipante = @IdGrupoParticipante,
                              idPerfil = @IdPerfil, 
                              usuarioActualizacion = @UsuarioActualizacion,
-                             fechaActualizacion = @FechaActualizacion,
+                             fechaActualizacion = @FechaActualizacion
                         where cedulaCuidador = @CedulaCuidador";
 
             DateTime fechaActualizacion = DateTime.Now;

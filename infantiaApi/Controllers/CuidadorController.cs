@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using infantiaApi.Repositories;
 
 namespace infantiaApi.Controllers
 {
@@ -23,19 +24,43 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _cuidadorRepository.GetAll());
+            try
+            {
+                return Ok(await _cuidadorRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
         
         [HttpGet("[action]/{cedulaCuidador}")]
         public async Task<IActionResult> GetCuidador(int cedulaCuidador)
         {
-            return Ok(await _cuidadorRepository.GetCuidador(cedulaCuidador));
+            try
+            {
+                return Ok(await _cuidadorRepository.GetCuidador(cedulaCuidador));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpGet("[action]/{idPerfil}")]
         public async Task<IActionResult> GetAllbyPerfil(int idPerfil)
         {
-            return Ok(await _cuidadorRepository.GetAllbyPerfil(idPerfil));
+            try
+            {
+                return Ok(await _cuidadorRepository.GetAllbyPerfil(idPerfil));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPost("[action]")]
@@ -47,8 +72,16 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _cuidadorRepository.InsertCuidador(cuidador);
-            return Created("created", created);            
+            try
+            {
+                var created = await _cuidadorRepository.InsertCuidador(cuidador);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -60,15 +93,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _cuidadorRepository.UpdateCuidador(cuidador);
-            return NoContent();
+            try
+            {
+                return Ok(await _cuidadorRepository.UpdateCuidador(cuidador));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteCuidador(int cedulaCuidador)
         {
-            await _cuidadorRepository.DeleteCuidador(new Cuidador { cedulaCuidador = cedulaCuidador });
-            return NoContent();
+            try
+            {                
+                return Ok(await _cuidadorRepository.DeleteCuidador(new Cuidador { cedulaCuidador = cedulaCuidador }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
     }
 }

@@ -11,7 +11,6 @@ namespace infantiaApi.Models
         public string mensaje { get; set; }
         public int semana { get; set; }
         public int estado { get; set; }
-        [Required]
         public string usuarioCreacion { get; set; }
         public string fechaCreacion { get; set; }
         public string usuarioActualizacion { get; set; }

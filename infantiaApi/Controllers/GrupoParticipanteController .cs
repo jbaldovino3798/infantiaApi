@@ -20,7 +20,15 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _grupoParticipanteRepository.GetAll());
+            try
+            {
+                return Ok(await _grupoParticipanteRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateGrupo([FromBody] GrupoParticipante grupoParticipante)
@@ -31,8 +39,16 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _grupoParticipanteRepository.InsertGrupoParticipante(grupoParticipante);
-            return Created("created", created);
+            try
+            {
+                var created = await _grupoParticipanteRepository.InsertGrupoParticipante(grupoParticipante);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -44,15 +60,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _grupoParticipanteRepository.UpdateGrupoParticipante(grupoParticipante);
-            return NoContent();
+            try
+            {
+                return Ok(await _grupoParticipanteRepository.UpdateGrupoParticipante(grupoParticipante));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
-        [HttpDelete("[action]")]
+          [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteGrupoParticipante(int idGrupoParticipante)
-        {
-            await _grupoParticipanteRepository.DeleteGrupoParticipante(new GrupoParticipante { idGrupoParticipante = idGrupoParticipante });
-            return NoContent();
+        {            
+            try
+            {
+                return Ok(await _grupoParticipanteRepository.DeleteGrupoParticipante(new GrupoParticipante { idGrupoParticipante = idGrupoParticipante }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
     }

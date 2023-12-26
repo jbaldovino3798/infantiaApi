@@ -12,7 +12,6 @@ namespace infantiaApi.Models
         public int idPerfil { get; set; }
         public string descripcion { get; set; }
         public int estado { get; set; }
-        [Required]
         public string usuarioCreacion { get; set; }
         public string fechaCreacion { get; set; }
         public string usuarioActualizacion { get; set; }

@@ -1,5 +1,6 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using infantiaApi.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,15 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _valoracionRepository.GetAll());
+            try
+            {
+                return Ok(await _valoracionRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPost("[action]")]
@@ -31,8 +40,16 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _valoracionRepository.InsertValoracion(valoracion);
-            return Created("created", created);
+            try
+            {
+                var created = await _valoracionRepository.InsertValoracion(valoracion);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -44,15 +61,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _valoracionRepository.UpdateValoracion(valoracion);
-            return NoContent();
+            try
+            {
+                return Ok(await _valoracionRepository.UpdateValoracion(valoracion));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteTemporalidad(int idValoracion)
         {
-            await _valoracionRepository.DeleteValoracion(new Valoracion { idValoracion = idValoracion });
-            return NoContent();
+            try
+            {
+                return Ok(await _valoracionRepository.DeleteValoracion(new Valoracion { idValoracion = idValoracion }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
     }
 }

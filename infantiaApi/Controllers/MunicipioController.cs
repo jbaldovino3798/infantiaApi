@@ -20,7 +20,15 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _municipioRepository.GetAll());
+            try
+            {
+                return Ok(await _municipioRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateMunicipio([FromBody] Municipio municipio)
@@ -31,8 +39,16 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _municipioRepository.InsertMunicipio(municipio);
-            return Created("created", created);
+            try
+            {
+                var created = await _municipioRepository.InsertMunicipio(municipio);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -44,15 +60,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _municipioRepository.UpdateMunicipio(municipio);
-            return NoContent();
+            try
+            {
+                return Ok(await _municipioRepository.UpdateMunicipio(municipio));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteMunicipio(string codigoMunicipio)
         {
-            await _municipioRepository.DeleteMunicipio(new Municipio { codigoMunicipio = codigoMunicipio });
-            return NoContent();
+            try
+            {
+                return Ok(await _municipioRepository.DeleteMunicipio(new Municipio { codigoMunicipio = codigoMunicipio }));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
     }

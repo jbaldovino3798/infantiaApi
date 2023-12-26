@@ -19,13 +19,41 @@ namespace infantiaApi.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
-            return Ok(await _equipoRepository.GetAll());
+            try { 
+                return Ok(await _equipoRepository.GetAll());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpGet("[action]/{cedulaMiembro}")]
         public async Task<IActionResult> GetEquipo(int cedulaMiembro)
         {
-            return Ok(await _equipoRepository.GetEquipo(cedulaMiembro));
+            try {
+                return Ok(await _equipoRepository.GetEquipo(cedulaMiembro));
+            }            
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
+        }
+
+        [HttpGet("[action]/{cedulaMiembro}")]
+        public async Task<IActionResult> GetOpcionesSistema(int cedulaMiembro)
+        {
+            try
+            {
+                return Ok(await _equipoRepository.GetOpcionesSistema(cedulaMiembro));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPost("[action]")]
@@ -34,8 +62,15 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var created = await _equipoRepository.InsertEquipo(equipo);
-            return Created("created", created);
+            try { 
+                var created = await _equipoRepository.InsertEquipo(equipo);
+                return Created("created", created);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPut("[action]")]
@@ -47,15 +82,29 @@ namespace infantiaApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _equipoRepository.UpdateEquipo(equipo);
-            return NoContent();
+            try { 
+                
+                return Ok(await _equipoRepository.UpdateEquipo(equipo));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteEquipo(int cedulaMiembro)
         {
-            await _equipoRepository.DeleteEquipo(new Equipo { cedulaMiembro = cedulaMiembro });
-            return NoContent();
+            try
+            {                
+                return Ok(await _equipoRepository.DeleteEquipo(cedulaMiembro = cedulaMiembro));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
         }
 
         [HttpPost("[action]")]
