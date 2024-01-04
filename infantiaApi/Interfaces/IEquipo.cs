@@ -7,11 +7,12 @@ namespace infantiaApi.Interfaces
     {
         Task<IEnumerable<Equipo>> GetAll();
         Task<Equipo> GetEquipo(int cedulaMiembro);
-        Task<IEnumerable<dynamic>> GetOpcionesSistema(int cedulaMiembro);
+        Task<ApiResponse> GetOpcionesSistema(int cedulaMiembro);
+        Task<dynamic> GetRoles();
         Task<bool> InsertEquipo(Equipo equipo);
         Task<bool> UpdateEquipo(Equipo equipo);
         Task<bool> DeleteEquipo(int cedulaMiembro);
-        Task<bool> GenerateAndStoreToken(int cedulaCuidador);
+        Task<string> GenerateAndStoreToken(int cedulaCuidador);
         Task<bool> AuthenticateAsync(int cedulaMiembro, string password);
     }
 }

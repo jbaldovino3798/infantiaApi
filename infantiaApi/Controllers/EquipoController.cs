@@ -29,6 +29,20 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetRoles()
+        {
+            try
+            {
+                return Ok(await _equipoRepository.GetRoles());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
+        }
+
         [HttpGet("[action]/{cedulaMiembro}")]
         public async Task<IActionResult> GetEquipo(int cedulaMiembro)
         {
@@ -118,7 +132,7 @@ namespace infantiaApi.Controllers
                 if (user != false)
                 {
                     // Check and regenerate the token if necessary
-                    var token = _equipoRepository.GenerateAndStoreToken(equipo.cedulaMiembro);
+                    var token = await _equipoRepository.GenerateAndStoreToken(equipo.cedulaMiembro);
                     var usuario = await GetEquipo(equipo.cedulaMiembro);
                     return Ok(usuario);
                 }

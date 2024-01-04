@@ -32,52 +32,28 @@ namespace infantiaApi.Repositories
         public async Task<IEnumerable<Equipo>> GetAll()
         {
             var db = dbConnection();
-            var sql = @" Select * from equipo ";
+            var sql = @" Select 
+	                        *,
+                            (select descripcion from rol where e.idRol = idRol) as rol 
+                            from equipo e ";
             return await db.QueryAsync<Equipo>(sql, new { });
         }
         public async Task<Equipo> GetEquipo(int cedulaMiembro)
         {
             var db = dbConnection();
-            var sql = @" Select * from equipo where cedulaMiembro = @CedulaMiembro";
+            var sql = @" Select *,
+                            (select descripcion from rol where e.idRol = idRol) as rol
+                            from equipo e where cedulaMiembro = @CedulaMiembro";
             return await db.QueryFirstOrDefaultAsync<Equipo>(sql, new { CedulaMiembro = cedulaMiembro });
         }
-        /*public async Task<IActionResult> GetContenedores(int cedulaMiembro)
+        public async Task<ApiResponse> GetOpcionesSistema(int cedulaMiembro)
         {
             var db = dbConnection();
-            var sql = @" select distinct c.idContenedor as id, 
-		                                c.descripcion as title, 
-                                        'aside' as type,
-                                        c.icono as icon 
-                                from equipo e
-                                inner join rol_opcionessistema r on e.idRol = r.idRol
-                                inner join opcionessistema o on r.idopcionesSistema = o.idopcionesSistema
-                                inner join contenedor c on o.idContenedor = c.idContenedor
-                                where e.cedulaMiembro = @CedulaMiembro";
-            return await db.QueryFirstOrDefaultAsync<dynamic>(sql, new { CedulaMiembro = cedulaMiembro });
-        }
-
-        public async Task<IActionResult> GetOpcionesbyContenedor(int cedulaMiembro, int idContenedor)
-        {
-            var db = dbConnection();
-            var sql = @" select o.idopcionesSistema as id, 
-	                            o.idContenedor,
-		                        o.descripcion as title, 
-                                'scrollable' as type,
-                                o.icono as icon 
-                        from equipo e
-                        inner join rol_opcionessistema r on e.idRol = r.idRol
-                        inner join opcionessistema o on r.idopcionesSistema = o.idopcionesSistema 
-                        where e.cedulaMiembro = @CedulaMiembro
-                        and and o.idContenedor = @IdContenedor";
-            return await db.QueryFirstOrDefaultAsync<dynamic>(sql, new { CedulaMiembro = cedulaMiembro, IdContenedor = idContenedor });
-        }*/
-        public async Task<IEnumerable<dynamic>> GetOpcionesSistema(int cedulaMiembro)
-        {
-            var db = dbConnection();
-            var contenedoresSql = @"SELECT c.idContenedor as id, 
+            var contenedoresSql = @"SELECT distinct c.idContenedor as id, 
                                        c.descripcion as title, 
-                                       'aside' as type,
-                                       c.icono as icon 
+                                       'basic' as type,
+                                       c.icono as icon,
+                                       c.link
                                 FROM equipo e
                                 INNER JOIN rol_opcionessistema r ON e.idRol = r.idRol
                                 INNER JOIN opcionessistema o ON r.idopcionesSistema = o.idopcionesSistema
@@ -87,15 +63,21 @@ namespace infantiaApi.Repositories
 
             var contenedores = await db.QueryAsync<dynamic>(contenedoresSql, new { CedulaMiembro = cedulaMiembro });
 
-            foreach (var contenedor in contenedores)
+            var response = new ApiResponse
+            {
+                data = contenedores.ToList()
+            };
+
+            /*foreach (var contenedor in contenedores)
             {
                 var idContenedor = contenedor.id;
 
                 var opcionesSql = @"SELECT o.idopcionesSistema as id, 
                                         o.idContenedor,
                                         o.descripcion as title, 
-                                        'scrollable' as type,
-                                        o.icono as icon 
+                                        'basic' as type,
+                                        o.icono as icon,
+                                        o.ruta as link
                                 FROM equipo e
                                 INNER JOIN rol_opcionessistema r ON e.idRol = r.idRol
                                 INNER JOIN opcionessistema o ON r.idopcionesSistema = o.idopcionesSistema 
@@ -105,8 +87,17 @@ namespace infantiaApi.Repositories
                 var opciones = await db.QueryAsync<dynamic>(opcionesSql, new { CedulaMiembro = cedulaMiembro, IdContenedor = idContenedor });
 
                 contenedor.children = opciones;
-            }
-            return contenedores; 
+            }*/
+            return response; 
+        }
+        public async Task<dynamic> GetRoles()
+        {
+            var db = dbConnection();
+            var rolesSql = @"SELECT idRol, descripcion as rol from rol"
+            ;
+
+            var roles = await db.QueryAsync<dynamic>(rolesSql);
+            return roles;
         }
         public async Task<bool> InsertEquipo(Equipo equipo)
         {
@@ -184,15 +175,17 @@ namespace infantiaApi.Repositories
                 });
             return result > 0;
         }
-        public async Task<bool> GenerateAndStoreToken(int cedulaMiembro)
+        public async Task<string> GenerateAndStoreToken(int cedulaMiembro)
         {
             var equipo = await GetEquipo(cedulaMiembro);
             if (equipo != null)
             {
                 // If the token is empty (new user or token refresh), generate a new token
+                equipo.token = "";
                 if (string.IsNullOrEmpty(equipo.token))
                 {
-                    equipo.token = GenerateRandomToken(32); // You can specify the desired token length
+                    // Generate a new JWT token with a unique secret key for this user
+                    equipo.token = GenerateJwtToken(cedulaMiembro, "$2a$11$vgbhrGOc1O2MPVSBA7ApFeephjxwfni9Vphqg3J0JtxIqHDrhJX2G");
                     DateTime fechaExpiracion = DateTime.Now.AddHours(1);
                     equipo.fechaExpiracionToken = fechaExpiracion.ToString("yyyy-MM-dd H:mm:ss"); ; // Token expiration time
 
@@ -209,10 +202,31 @@ namespace infantiaApi.Repositories
                         CedulaMiembro = cedulaMiembro
                     });
 
-                    return result > 0;
+                    return equipo.token;
                 }
             }
-            return false;
+            return "";
+        }
+        // Generate JWT token with the user's specific secret key
+        private string GenerateJwtToken(int cedulaMiembro, string secretKey)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, cedulaMiembro.ToString()),
+                // Add additional claims as needed
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1), // Set token expiration time
+                signingCredentials: creds
+            );
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
         private string GenerateRandomToken(int tokenLength)
         {

@@ -96,7 +96,7 @@ namespace infantiaApi.Controllers
         {
             try
             {
-                return Ok(await _ponderacionRepository.DeletePonderacion(idPonderacion = idPonderacion));
+                return Ok(await _ponderacionRepository.DeletePonderacion(idPonderacion));
             }
             catch (Exception ex)
             {
