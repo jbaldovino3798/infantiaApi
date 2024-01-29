@@ -17,7 +17,7 @@ namespace infantiaApi.Models
         public string direccion { get; set; }
         public string barrio { get; set; }
         [Required]
-        public int estrato { get; set; }
+        public string estrato { get; set; }
         [Required]
         public string telefono { get; set; }
         public string email { get; set; }
