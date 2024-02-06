@@ -34,7 +34,7 @@ namespace infantiaApi.Repositories
             var db = dbConnection();
             var sql = @" Select 
 	                        *,
-                            (select descripcion from rol where e.idRol = idRol) as rol 
+                            (select descripcion from rol where e.idRol = idRol) as rol
                             from equipo e ";
             return await db.QueryAsync<Equipo>(sql, new { });
         }

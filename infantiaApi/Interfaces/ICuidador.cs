@@ -8,9 +8,9 @@ namespace infantiaApi.Interfaces
 {
     public interface ICuidador
     {
-        Task<IEnumerable<Cuidador>> GetAll();
-        Task<IEnumerable<Cuidador>> GetAllbyPerfil(int idPerfil);
-        Task<Cuidador> GetCuidador(int cedulaCuidador);
+        Task<IEnumerable<dynamic>> GetAll();
+        Task<IEnumerable<dynamic>> GetAllbyPerfil(int idPerfil);
+        Task<dynamic> GetCuidador(int cedulaCuidador);
         Task<bool> InsertCuidador(Cuidador cuidador);
         Task<bool> UpdateCuidador(Cuidador cuidador);
         Task<bool> DeleteCuidador(Cuidador cuidador);

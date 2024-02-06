@@ -21,25 +21,39 @@ namespace infantiaApi.Repositories
             return new MySqlConnection(_connectionString.ConnectionString);
         }
 
-        public async Task<IEnumerable<Cuidador>> GetAll()
+        public async Task<IEnumerable<dynamic>> GetAll()
         {
             var db = dbConnection();
-            var sql = @" Select * from Cuidador ";
-            return await db.QueryAsync<Cuidador>(sql, new { });
+            var sql = @" Select *,
+                            (select descripcion from municipio where codigoMunicipio = c.codigoMunicipio) as municipio,
+                            (select descripcionGrupo from grupo where idGrupo = c.idGrupo) as grupo,
+                            (select descripcionGrupo from grupoparticipante where idGrupoParticipante = c.idGrupoParticipante) as grupoParticipante,
+                            (select descripcion from perfil where idPerfil = c.idPerfil) as perfil  
+                        from Cuidador c ";
+            return await db.QueryAsync<dynamic>(sql, new { });
         }
-        public async Task<IEnumerable<Cuidador>> GetAllbyPerfil(int idPerfil)
+        public async Task<IEnumerable<dynamic>> GetAllbyPerfil(int idPerfil)
         {
             var db = dbConnection();
-            var sql = @" Select * from Cuidador where idPerfil = @IdPerfil ";
-            return await db.QueryAsync<Cuidador>(sql, new { IdPerfil = idPerfil });
+            var sql = @" Select *,
+                            (select descripcion from municipio where codigoMunicipio = c.codigoMunicipio) as municipio,
+                            (select descripcionGrupo from grupo where idGrupo = c.idGrupo) as grupo,
+                            (select descripcionGrupo from grupoparticipante where idGrupoParticipante = c.idGrupoParticipante) as grupoParticipante,
+                            (select descripcion from perfil where idPerfil = c.idPerfil) as perfil 
+                        from Cuidador c where idPerfil = @IdPerfil ";
+            return await db.QueryAsync<dynamic>(sql, new { IdPerfil = idPerfil });
         }
-        public async Task<Cuidador> GetCuidador(int cedulaCuidador)
+        public async Task<dynamic> GetCuidador(int cedulaCuidador)
         {
             var db = dbConnection();
-            var sql = @" Select *
-                        from Cuidador
+            var sql = @" Select *,
+                            (select descripcion from municipio where codigoMunicipio = c.codigoMunicipio) as municipio,
+                            (select descripcionGrupo from grupo where idGrupo = c.idGrupo) as grupo,
+                            (select descripcionGrupo from grupoparticipante where idGrupoParticipante = c.idGrupoParticipante) as grupoParticipante,
+                            (select descripcion from perfil where idPerfil = c.idPerfil) as perfil 
+                        from Cuidador c
                         where cedulaCuidador = @CedulaCuidador ";
-            return await db.QueryFirstOrDefaultAsync<Cuidador>(sql, new { CedulaCuidador = cedulaCuidador });
+            return await db.QueryFirstOrDefaultAsync<dynamic>(sql, new { CedulaCuidador = cedulaCuidador });
         }
         public async Task<bool> InsertCuidador(Cuidador cuidador)
         {
