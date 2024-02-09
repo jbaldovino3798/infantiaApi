@@ -58,7 +58,8 @@ namespace infantiaApi.Repositories
                                 INNER JOIN rol_opcionessistema r ON e.idRol = r.idRol
                                 INNER JOIN opcionessistema o ON r.idopcionesSistema = o.idopcionesSistema
                                 INNER JOIN contenedor c ON o.idContenedor = c.idContenedor
-                                WHERE e.cedulaMiembro = @CedulaMiembro"
+                                WHERE e.cedulaMiembro = @CedulaMiembro
+                                order by c.descripcion"
             ;
 
             var contenedores = await db.QueryAsync<dynamic>(contenedoresSql, new { CedulaMiembro = cedulaMiembro });

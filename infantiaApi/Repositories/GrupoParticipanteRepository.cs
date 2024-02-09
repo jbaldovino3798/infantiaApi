@@ -23,7 +23,7 @@ namespace infantiaApi.Repositories
         public async Task<IEnumerable<GrupoParticipante>> GetAll()
         {
             var db = dbConnection();
-            var sql = @" Select * from formulario ";
+            var sql = @" Select * from GrupoParticipante ";
             return await db.QueryAsync<GrupoParticipante>(sql, new { });
         }
         public async Task<GrupoParticipante> GetGrupoParticipante(int idGrupoParticipante)
@@ -55,7 +55,7 @@ namespace infantiaApi.Repositories
         public async Task<bool> UpdateGrupoParticipante(GrupoParticipante grupoParticipante)
         {
             var db = dbConnection();
-            var sql = @" update formulario 
+            var sql = @" update GrupoParticipante 
                          set descripcionGrupo =  @DescripcionGrupo,
                              usuarioActualizacion = @UsuarioActualizacion,
                              fechaActualizacion = @FechaActualizacion
