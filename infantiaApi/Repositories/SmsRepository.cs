@@ -20,11 +20,13 @@ namespace infantiaApi.Repositories
             var result = await db.ExecuteAsync(sql, new { IdSms = sms.idSms });
             return result > 0;
         }
-        public async Task<IEnumerable<Sms>> GetAll()
+        public async Task<IEnumerable<dynamic>> GetAll()
         {
             var db = dbConnection();
-            var sql = @" Select * from sms ";
-            return await db.QueryAsync<Sms>(sql, new { });
+            var sql = @" Select  s.*, 
+                        case when s.idGrupo is null then ""General"" else
+                        (select descripcionGrupo from grupo where idGrupo = s.idGrupo) END as grupo from sms s;";
+            return await db.QueryAsync<dynamic>(sql, new { });
         }
         public async Task<IEnumerable<Sms>> GetAllbyGrupo(int idGrupo)
         {

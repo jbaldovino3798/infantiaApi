@@ -4,7 +4,7 @@ namespace infantiaApi.Interfaces
 {
     public interface ISms
     {
-        Task<IEnumerable<Sms>> GetAll();
+        Task<IEnumerable<dynamic>> GetAll();
         Task<IEnumerable<Sms>> GetAllbyGrupo(int idGrupo);
         Task<Sms> GetSms(int idSms);
         Task<bool> InsertSms(Sms sms);
