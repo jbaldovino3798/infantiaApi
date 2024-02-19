@@ -28,11 +28,11 @@ namespace infantiaApi.Repositories
         }
         public async Task<Formulario> GetFormulario(int idFormulario)
         {
-            var db = dbConnection();
-            var sql = @" Select *
-                        from Formulario
-                        where idFormulario = @IdFormulario ";
-            return await db.QueryFirstOrDefaultAsync<Formulario>(sql, new { IdFormulario = idFormulario });
+                var db = dbConnection();
+                var sql = @" Select *
+                            from Formulario
+                            where idFormulario = @IdFormulario ";
+                return await db.QueryFirstOrDefaultAsync<Formulario>(sql, new { IdFormulario = idFormulario });
         }
         public async Task<bool> InsertFormulario(Formulario formulario)
         {

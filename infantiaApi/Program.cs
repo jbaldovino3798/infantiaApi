@@ -40,6 +40,7 @@ builder.Services.AddScoped<ITemporalidad, TemporalidadRepository>();
 builder.Services.AddScoped<IValoracion, ValoracionRepository>();
 builder.Services.AddScoped<ITipoPregunta, TipoPreguntaRepository>();
 builder.Services.AddScoped<IConfiguracionTipoPregunta, ConfiguracionTipoPreguntaRepository>();
+builder.Services.AddScoped<IReportes, ReportesRepository>();
 
 builder.Services.AddCors(options =>
 {

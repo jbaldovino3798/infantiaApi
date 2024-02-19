@@ -9,7 +9,6 @@ namespace infantiaApi.Models
         public int cedulaMiembro { get; set; }
         public string nombreMiembro { get; set; }
         public string ocupacion { get; set; }
-        public string usuario { get; set; }
         public int idRol { get; set; }
         public string rol { get; set; }
         public int estado { get; set; }
