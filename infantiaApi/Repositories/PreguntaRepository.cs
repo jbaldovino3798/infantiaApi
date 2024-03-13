@@ -28,6 +28,14 @@ namespace infantiaApi.Repositories
                         from pregunta p";
             return await db.QueryAsync<dynamic>(sql, new { });
         }
+        public async Task<IEnumerable<dynamic>> GetPreguntasNotInFormulario(int idFormulario)
+        {
+            var db = dbConnection();
+            var sql = @" Select * 
+                        from pregunta p
+                        where not exists (select 1 from pregunta_formulario where idFormulario = @IdFormulario and idPregunta = p.idPregunta)";
+            return await db.QueryAsync<dynamic>(sql, new { IdFormulario = idFormulario });
+        }
         public async Task<Pregunta> GetPregunta(int idPregunta)
         {
             var db = dbConnection();

@@ -31,6 +31,20 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetPreguntasNotInFormulario(int idFormulario)
+        {
+            try
+            {
+                return Ok(await _preguntaRepository.GetPreguntasNotInFormulario(idFormulario));
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions appropriately (e.g., log them)
+                return StatusCode(500, "An error occurred while processing the request. " + ex);
+            }
+        }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePregunta([FromBody] Pregunta pregunta)
         {
