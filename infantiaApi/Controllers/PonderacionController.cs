@@ -1,6 +1,7 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.Xml.Linq;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PonderacionController : ControllerBase
@@ -20,6 +22,7 @@ namespace infantiaApi.Controllers
             _ponderacionRepository = ponderacionRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -36,6 +39,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{idPonderacion}")]
         public async Task<IActionResult> GetPonderacion(int idPonderacion)
         {
@@ -50,6 +54,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePonderacion([FromBody] Ponderacion ponderacion)
         {
@@ -71,6 +76,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdatePonderacion([FromBody] Ponderacion ponderacion)
         {
@@ -91,6 +97,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]/{idPonderacion}")]
         public async Task<IActionResult> DeletePonderacion(int idPonderacion)
         {

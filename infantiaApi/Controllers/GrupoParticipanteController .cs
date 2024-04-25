@@ -1,11 +1,13 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class GrupoParticipanteController : ControllerBase
@@ -17,6 +19,7 @@ namespace infantiaApi.Controllers
             _grupoParticipanteRepository = grupoParticipanteRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -30,6 +33,8 @@ namespace infantiaApi.Controllers
                 return StatusCode(500, "An error occurred while processing the request. " + ex);
             }
         }
+
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateGrupo([FromBody] GrupoParticipante grupoParticipante)
         {
@@ -51,6 +56,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateGrupoParticipante([FromBody] GrupoParticipante grupoParticipante)
         {
@@ -71,7 +77,8 @@ namespace infantiaApi.Controllers
             }
         }
 
-          [HttpDelete("[action]")]
+        [Authorize]
+        [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteGrupoParticipante(int idGrupoParticipante)
         {            
             try

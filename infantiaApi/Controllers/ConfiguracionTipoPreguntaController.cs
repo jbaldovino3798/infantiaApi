@@ -1,11 +1,13 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ConfiguracionTipoPreguntaController : ControllerBase
@@ -17,6 +19,7 @@ namespace infantiaApi.Controllers
             _configuracionTipoPreguntaRepository = configuracionTipoPreguntaRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -31,12 +34,14 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{idTipoPregunta}")]
         public async Task<IActionResult> GetAllbyTipoPregunta(int idTipoPregunta)
         {
             return Ok(await _configuracionTipoPreguntaRepository.GetAllbyTipoPregunta(idTipoPregunta));
         }
 
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateConfiguracionTipoPregunta([FromBody] ConfiguracionTipoPregunta configuracionTipoPregunta)
         {
@@ -58,6 +63,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateConfiguracionTipoPregunta([FromBody] ConfiguracionTipoPregunta configuracionTipoPregunt)
         {
@@ -78,6 +84,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteConfiguracionTipoPregunta(int idConfiguracion)
         {

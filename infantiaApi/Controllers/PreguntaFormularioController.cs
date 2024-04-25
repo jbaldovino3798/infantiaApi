@@ -1,11 +1,13 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PreguntaFormularioController : ControllerBase
@@ -17,6 +19,7 @@ namespace infantiaApi.Controllers
             _preguntaFormularioRepository = preguntaFormularioRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -31,6 +34,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{idFormulario}")]
         public async Task<IActionResult> GetPreguntasbyFormulario(int idFormulario)
         {
@@ -63,6 +67,8 @@ namespace infantiaApi.Controllers
             return Ok(await _cuidadorFormularioRepository.GetAllbyCuidador(cedulaCuidador));
         }
         */
+
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePreguntaFormulario([FromBody] PreguntaFormulario preguntaFormulario)
         {
@@ -84,6 +90,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdatePreguntaFormulario([FromBody] PreguntaFormulario preguntaFormulario)
         {
@@ -104,6 +111,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]/{idPregunta}/{idFormulario}")]
         public async Task<IActionResult> DeletePreguntaFormulario(int idPregunta, int idFormulario)
         {

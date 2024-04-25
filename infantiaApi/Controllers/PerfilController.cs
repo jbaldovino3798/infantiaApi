@@ -1,6 +1,7 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using System.Xml.Linq;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PerfilController : ControllerBase
@@ -20,6 +22,7 @@ namespace infantiaApi.Controllers
             _perfilRepository = perfilRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -36,6 +39,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{idPerfil}")]
         public async Task<IActionResult> GetPerfil(int idPerfil)
         {
@@ -50,6 +54,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePerfil([FromBody] Perfil perfil)
         {
@@ -71,6 +76,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdatePerfil([FromBody] Perfil perfil)
         {
@@ -91,6 +97,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]/{idPerfil}")]
         public async Task<IActionResult> DeletePerfil(int idPerfil)
         {            

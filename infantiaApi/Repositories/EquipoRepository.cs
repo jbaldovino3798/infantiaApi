@@ -186,7 +186,7 @@ namespace infantiaApi.Repositories
                 if (string.IsNullOrEmpty(equipo.token))
                 {
                     // Generate a new JWT token with a unique secret key for this user
-                    equipo.token = GenerateJwtToken(cedulaMiembro, "$2a$11$vgbhrGOc1O2MPVSBA7ApFeephjxwfni9Vphqg3J0JtxIqHDrhJX2G");
+                    equipo.token = GenerateJwtToken(cedulaMiembro, "$2a$11$vgbhrGOc1O2MPVSBA7ApFeephjxwfni9Vphqg3J0JtxIqHDrhJX2G", equipo.idRol);
                     DateTime fechaExpiracion = DateTime.Now.AddHours(1);
                     equipo.fechaExpiracionToken = fechaExpiracion.ToString("yyyy-MM-dd H:mm:ss"); ; // Token expiration time
 
@@ -209,11 +209,12 @@ namespace infantiaApi.Repositories
             return "";
         }
         // Generate JWT token with the user's specific secret key
-        private string GenerateJwtToken(int cedulaMiembro, string secretKey)
+        private string GenerateJwtToken(int cedulaMiembro, string secretKey, int idRol)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, cedulaMiembro.ToString()),
+                new Claim(ClaimTypes.Role, idRol.ToString()), // Agrega el idRol al token
                 // Add additional claims as needed
             };
 

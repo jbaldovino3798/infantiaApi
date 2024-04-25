@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CuidadorController : ControllerBase
@@ -21,6 +23,7 @@ namespace infantiaApi.Controllers
             _cuidadorRepository = cuidadorRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -34,7 +37,8 @@ namespace infantiaApi.Controllers
                 return StatusCode(500, "An error occurred while processing the request. " + ex);
             }
         }
-        
+
+        [Authorize]
         [HttpGet("[action]/{cedulaCuidador}")]
         public async Task<IActionResult> GetCuidador(int cedulaCuidador)
         {
@@ -49,6 +53,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{idPerfil}")]
         public async Task<IActionResult> GetAllbyPerfil(int idPerfil)
         {
@@ -63,6 +68,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateCuidador([FromBody] Cuidador cuidador)
         {
@@ -84,6 +90,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateCuidador([FromBody] Cuidador cuidador)
         {
@@ -104,6 +111,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteCuidador(int cedulaCuidador)
         {

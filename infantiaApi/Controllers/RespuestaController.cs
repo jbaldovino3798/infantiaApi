@@ -1,11 +1,13 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
 using infantiaApi.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RespuestaController : ControllerBase
@@ -17,6 +19,7 @@ namespace infantiaApi.Controllers
             _respuestaRepository = respuestaRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -37,6 +40,7 @@ namespace infantiaApi.Controllers
             return Ok(await _respuestaRepository.GetAllbyCuidador(cedulaCuidador));
         }*/
 
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateRespuesta([FromBody] Respuesta respuesta)
         {
@@ -58,6 +62,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateRespuesta([FromBody] Respuesta respuesta)
         {
@@ -78,6 +83,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteRespuesta(int idRespuesta)
         {

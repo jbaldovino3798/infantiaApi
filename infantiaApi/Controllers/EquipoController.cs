@@ -1,10 +1,12 @@
 ﻿using infantiaApi.Interfaces;
 using infantiaApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace infantiaApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EquipoController : ControllerBase
@@ -16,6 +18,7 @@ namespace infantiaApi.Controllers
             _equipoRepository = equipoRepository;
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
@@ -29,6 +32,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         public async Task<IActionResult> GetRoles()
         {
@@ -43,6 +47,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{cedulaMiembro}")]
         public async Task<IActionResult> GetEquipo(int cedulaMiembro)
         {
@@ -56,6 +61,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]/{cedulaMiembro}")]
         public async Task<IActionResult> GetOpcionesSistema(int cedulaMiembro)
         {
@@ -70,6 +76,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("[action]")]
         public async Task<IActionResult> InsertEquipo([FromBody] Equipo equipo)
         {
@@ -87,6 +94,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("[action]")]
         public async Task<IActionResult> UpdateEquipo([FromBody] Equipo equipo)
         {
@@ -107,6 +115,7 @@ namespace infantiaApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteEquipo(int cedulaMiembro)
         {

@@ -5,6 +5,9 @@ using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using infantiaApi.Middleware;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +20,35 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mi API", Version = "v1" });
+
+    // Configura Swagger para usar el esquema de seguridad Bearer
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Introduzca el token JWT de la siguiente manera: Bearer {token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 //Read Connection String
 var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnectionString("MySqlConnection"));
@@ -47,7 +78,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("CorsPolicy", 
         builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
-/*
+
 // Configure JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("token");
 var key = Encoding.ASCII.GetBytes(jwtSettings["key"]);
@@ -66,7 +97,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-*/
+
 // Configure logging to output to the console
 builder.Logging.AddConsole();
 
@@ -81,6 +112,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
+
+app.UseMiddleware<JwtMiddleware>();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
