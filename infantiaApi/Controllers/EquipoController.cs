@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace infantiaApi.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EquipoController : ControllerBase
